@@ -1,0 +1,7 @@
+2012-04-14 16:36:55+0200 [-] Log opened.
+2012-04-14 16:36:55+0200 [-] --> tests.test_session.ConnectionInfoTest.test_get_argument <--
+2012-04-14 16:36:55+0200 [-] using set_wakeup_fd
+2012-04-14 16:36:55+0200 [-] --> tests.test_session.ConnectionInfoTest.test_get_argument_returns_None_on_not_found <--
+2012-04-14 16:36:55+0200 [-] --> tests.test_session.ConnectionInfoTest.test_get_cookie <--
+2012-04-14 16:36:55+0200 [-] --> tests.test_session.ConnectionInfoTest.test_get_cookie_returns_None_on_not_found <--
+2012-04-14 16:36:55+0200 [-] --> tests.test_session.ConnectionInfoTest.test_instantiate <--
