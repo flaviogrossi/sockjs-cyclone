@@ -22,16 +22,6 @@ class SockJsTestServer(web.Application, object):
 
         handlers = echoRouter.urls
 
-        for spec in handlers:
-            print '----------------------'
-            print spec
-            print '----------------------'
-
-
-        print '-----------------------------'
-        print echoRouter.urls
-        print '-----------------------------'
-
         super(SockJsTestServer, self).__init__(handlers, **settings)
 
 
