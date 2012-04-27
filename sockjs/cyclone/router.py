@@ -1,4 +1,12 @@
+from twisted.internet import task, reactor
+
 from sockjs.cyclone import transports 
+from sockjs.cyclone import session
+from sockjs.cyclone import sessioncontainer
+from sockjs.cyclone import proto
+from sockjs.cyclone import static
+from sockjs.cyclone import stats
+
 
 DEFAULT_SETTINGS = {
     # Sessions check interval in seconds
@@ -42,15 +50,15 @@ TRANSPORTS = {
 
 STATIC_HANDLERS = {
 #    '/chunking_test': static.ChunkingTestHandler,
-#    '/info': static.InfoHandler,
-#    '/iframe[0-9-.a-z_]*.html': static.IFrameHandler,
+    '/info': static.InfoHandler,
+    '/iframe[0-9-.a-z_]*.html': static.IFrameHandler,
 #    '/websocket': transports.RawWebSocketTransport,
-#    '/?': static.GreetingsHandler
+    '/?': static.GreetingsHandler
 }
 
 
 
-class SockJsRouter(object):
+class SockJSRouter(object):
     def __init__(self, connection, prefix='', user_settings=dict()):
         self._connection = connection
 
@@ -94,12 +102,18 @@ class SockJsRouter(object):
             self._transport_urls.append((url, handler, kwargs))
 
     def _initialize_sessions(self):
-        # FIXME
-        pass
+        self._sessions = sessioncontainer.SessionContainer()
+
+        check_interval = self.settings['session_check_interval'] * 1000
+
+        self._sessions_cleanup = task.LoopingCall(self._sessions.expire)
+        self._sessions_cleanup.start(check_interval)
+
+        reactor.addSystemEventTrigger('before', 'shutdown',
+                                      self._sessions_cleanup.stop)
 
     def _initialize_stats(self):
-        # FIXME
-        pass
+        self.stats = stats.StatsCollector()
 
     def get_connection_class(self):
         """ Return associated connection class """
@@ -113,4 +127,56 @@ class SockJsRouter(object):
         """ Feed list of the URLs to the routes list. Returns list """
         routes.extend(self._transport_urls)
         return routes
+
+    def create_session(self, session_id, register=True):
+        """ Creates new session object and returns it.
+
+        @param request: Request that created the session. Will be used to get
+                        query string parameters and cookies
+
+        @param register: Should be session registered in a storage. Websockets
+                         don't need it.
+        """
+        s = session.Session(self._connection, self, session_id,
+                            self.settings.get('disconnect_delay'))
+
+        if register:
+            self._sessions.add(s)
+
+        return s
+
+    def get_session(self, session_id):
+        """ Get session by session id
+
+        @param session_id: Session id
+        """
+        return self._sessions.get(session_id)
+
+    # Broadcast helper
+    def broadcast(self, clients, msg):
+        """ Optimized C{broadcast} implementation. Depending on type of the
+        session, will json-encode message once and will call either
+        C{send_message} or C{send_jsonifed}.
+
+        @param clients: Clients iterable
+
+        @param msg: Message to send
+        """
+        json_msg = None
+
+        count = 0
+
+        for c in clients:
+            sess = c.session
+            if not sess.is_closed:
+                if sess.send_expects_json:
+                    if json_msg is None:
+                        json_msg = proto.json_encode(msg)
+                    sess.send_jsonified(json_msg, False)
+                else:
+                    sess.send_message(msg, False)
+
+                count += 1
+
+        self.stats.on_pack_sent(count)
 

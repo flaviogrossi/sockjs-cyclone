@@ -1,9 +1,8 @@
-class SockJsConnection(object):
+class SockJSConnection(object):
     def __init__(self, session):
-        """Connection constructor.
+        """ Connection constructor.
 
-        `session`
-            Associated session
+        @param session: Associated session
         """
         self.session = session
 
@@ -24,18 +23,18 @@ class SockJsConnection(object):
         pass
 
     def on_message(self, message):
-        """Default on_message handler. Must be overridden in your application"""
+        """ Default on_message handler. Must be overridden in your
+        application """
         raise NotImplementedError()
 
     def on_close(self):
-        """Default on_close handler."""
+        """ Default on_close handler. """
         pass
 
     def send(self, message):
-        """Send message to the client.
+        """ Send message to the client.
 
-        `message`
-            Message to send.
+        @param message: Message to send.
         """
         if not self.is_closed:
             self.session.send_message(message)

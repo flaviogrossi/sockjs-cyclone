@@ -195,32 +195,33 @@ class Session(BaseSession, sessioncontainer.SessionMixin):
     """
 
     def __init__(self, conn, server, session_id, expiry=None):
-        """Session constructor.
+        """ Session constructor.
 
-        `conn`
-            Default connection class
-        `server`
-            `SockJSRouter` instance
-        `session_id`
-            Session id
-        `expiry`
-            Session expiry time
+        @param conn: Default connection class
+
+        @param server: `SockJSRouter` instance
+
+        @param session_id: Session id
+
+        @param expiry: Session expiry time
+
         """
         # Initialize session
-        sessioncontainer.SessionMixin.__init__(self, session_id, expiry)
-        BaseSession.__init__(self, conn, server)
-
         self.send_queue = ''  # TODO: use a list of strings or a StringIO
         self.send_expects_json = True
 
         # Heartbeat related stuff
         self._heartbeat_timer = None
-        self._heartbeat_interval = self.server.settings['heartbeat_delay']*1000
+        self._heartbeat_interval = server.settings['heartbeat_delay']*1000
 
-        self._immediate_flush = self.server.settings['immediate_flush']
+        self._immediate_flush = server.settings['immediate_flush']
         self._pending_flush = False
 
-        self._verify_ip = self.server.settings['verify_ip']
+        self._verify_ip = server.settings['verify_ip']
+
+        sessioncontainer.SessionMixin.__init__(self, session_id, expiry)
+        BaseSession.__init__(self, conn, server)
+
 
     # Session callbacks
     def on_delete(self, forced):

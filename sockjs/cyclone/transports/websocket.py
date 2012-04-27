@@ -1,4 +1,4 @@
-import socket
+#import socket
 
 from twisted.python import log
 
@@ -20,9 +20,10 @@ class WebSocketTransport(websocket.WebSocketHandler, base.BaseTransportMixin):
         # Stats
         self.server.stats.on_conn_opened()
 
+        # FIXME
         # Disable nagle
-        if self.server.settings['disable_nagle']:
-            self.stream.socket.setsockopt(socket.SOL_TCP, socket.TCP_NODELAY, 1)
+        #if self.server.settings['disable_nagle']:
+            #self.stream.socket.setsockopt(socket.SOL_TCP, socket.TCP_NODELAY, 1)
 
         # Handle session
         self.session = self.server.create_session(session_id, register=False)
@@ -73,7 +74,7 @@ class WebSocketTransport(websocket.WebSocketHandler, base.BaseTransportMixin):
             self._detach()
             session.close()
 
-    def sendMessage(self, message):
+    def send_pack(self, message):
         self.sendMessage(message)
 
     def session_closed(self):

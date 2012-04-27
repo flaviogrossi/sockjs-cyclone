@@ -1,3 +1,3 @@
-from .conn import SockJsConnection
-from .router import SockJsRouter
+from .conn import SockJSConnection
+from .router import SockJSRouter
 
