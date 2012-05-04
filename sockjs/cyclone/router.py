@@ -35,13 +35,13 @@ DEFAULT_SETTINGS = {
     }
 
 GLOBAL_HANDLERS = [
-#    ('xhr_send', transports.XhrSendHandler),
-#    ('jsonp_send', transports.JSONPSendHandler)
+    ('xhr_send', transports.XhrSendHandler),
+    ('jsonp_send', transports.JSONPSendHandler)
 ]
 
 TRANSPORTS = {
     'websocket': transports.WebSocketTransport,
-#    'xhr': transports.XhrPollingTransport,
+    'xhr': transports.XhrPollingTransport,
 #    'xhr_streaming': transports.XhrStreamingTransport,
     'jsonp': transports.JSONPTransport,
 #    'eventsource': transports.EventSourceTransport,
@@ -49,7 +49,7 @@ TRANSPORTS = {
 }
 
 STATIC_HANDLERS = {
-#    '/chunking_test': static.ChunkingTestHandler,
+    '/chunking_test': static.ChunkingTestHandler,
     '/info': static.InfoHandler,
     '/iframe[0-9-.a-z_]*.html': static.IFrameHandler,
 #    '/websocket': transports.RawWebSocketTransport,

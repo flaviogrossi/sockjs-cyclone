@@ -48,11 +48,11 @@ class PollingTransportBase(basehandler.PreflightHandler, base.BaseTransportMixin
         """Called by the session when it was closed"""
         self._detach()
 
-    def on_connection_close(self):
+    def on_connection_close(self, reason):
         # If connection was dropped by the client, close session.
         # In all other cases, connection will be closed by the server.
         if self.session is not None:
             self.session.close(1002, 'Connection interrupted')
 
-        super(PollingTransportBase, self).on_connection_close()
+        super(PollingTransportBase, self).on_connection_close(reason)
 

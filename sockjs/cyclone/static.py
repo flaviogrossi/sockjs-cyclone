@@ -3,6 +3,11 @@
 import hashlib
 import random
 import sys
+import time
+
+from twisted.internet import reactor
+
+from cyclone.web import asynchronous
 
 from sockjs.cyclone.basehandler import BaseHandler, PreflightHandler
 from sockjs.cyclone.proto import json_encode
@@ -66,8 +71,44 @@ class GreetingsHandler(BaseHandler):
 
 class ChunkingTestHandler(PreflightHandler):
     """ SockJS chunking test handler """
-    # FIXME
-    pass
+
+    # Step timeouts according to sockjs documentation
+    steps = [0.005, 0.025, 0.125, 0.625, 3.125]
+
+    def initialize(self, server):
+        self.server = server
+        self.step = 0
+        self.io_loop = server.io_loop
+
+    @asynchronous
+    def post(self):
+        self.preflight()
+        self.set_header('Content-Type', 'application/javascript; charset=UTF-8')
+
+        # Send one 'h' immediately
+        self.write('h\n')
+        self.flush()
+
+        # Send 2048 spaces followed by 'h'
+        self.write(' ' * 2048 + 'h\n')
+        self.flush()
+
+        # Send 'h' with different timeouts
+        def run_step():
+            try:
+                self.write('h\n')
+                self.flush()
+
+                self.step += 1
+                if self.step < len(self.steps):
+                    reactor.callLater(time.time() + self.steps[self.step],
+                                      run_step)
+                else:
+                    self.finish()
+            except IOError:
+                pass
+
+        reactor.callLater(time.time() + self.steps[self.step], run_step)
 
 
 class InfoHandler(PreflightHandler):
