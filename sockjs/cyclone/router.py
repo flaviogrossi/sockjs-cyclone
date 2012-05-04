@@ -43,9 +43,9 @@ TRANSPORTS = {
     'websocket': transports.WebSocketTransport,
 #    'xhr': transports.XhrPollingTransport,
 #    'xhr_streaming': transports.XhrStreamingTransport,
-#    'jsonp': transports.JSONPTransport,
+    'jsonp': transports.JSONPTransport,
 #    'eventsource': transports.EventSourceTransport,
-#    'htmlfile': transports.HtmlFileTransport
+    'htmlfile': transports.HtmlFileTransport
 }
 
 STATIC_HANDLERS = {
