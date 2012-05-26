@@ -26,7 +26,7 @@ class CloseConnection(SockJSConnection):
 class TickerConnection(SockJSConnection):
     def on_open(self, info):
         self.timeout = task.LoopingCall(self._ticker)
-        self.timeout.start(1000)
+        self.timeout.start(1)
 
     def on_close(self):
         self.timeout.stop()

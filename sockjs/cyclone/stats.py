@@ -67,7 +67,7 @@ class StatsCollector(object):
         self.pack_recv_ps = MovingAverage()
 
         self._callback = task.LoopingCall(self._update)
-        self._callback.start(1000)
+        self._callback.start(1)
 
         reactor.addSystemEventTrigger('before', 'shutdown', self._callback.stop)
 
