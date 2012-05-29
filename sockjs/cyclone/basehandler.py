@@ -102,7 +102,10 @@ class PreflightHandler(BaseHandler):
         """Handles request authentication"""
         origin = self.request.headers.get('Origin', '*')
 
-        # Respond with '*' to 'null' origin
+        # 'null' may be sent by the browser when the sockjs client is hosted
+        # from a file:// url.
+        # In such case, respond with '*' to 'null' origin, as per sockjs
+        # protocol definition
         if origin == 'null':
             origin = '*'
 
