@@ -4,7 +4,7 @@ from sockjs.cyclone.transports import base
 
 class PollingTransportBase(basehandler.PreflightHandler, base.BaseTransportMixin):
 
-    """Polling transport handler base class"""
+    """ Polling transport handler base class """
 
     def initialize(self, server):
         super(PollingTransportBase, self).initialize(server)
@@ -32,7 +32,7 @@ class PollingTransportBase(basehandler.PreflightHandler, base.BaseTransportMixin
         return True
 
     def _detach(self):
-        """Detach from the session"""
+        """ Detach from the session """
         if self.session:
             self.session.remove_handler(self)
             self.session = None
@@ -41,11 +41,11 @@ class PollingTransportBase(basehandler.PreflightHandler, base.BaseTransportMixin
         pass
 
     def send_message(self, message):
-        """Called by the session when some data is available"""
+        """ Called by the session when some data is available """
         raise NotImplementedError()
 
     def session_closed(self):
-        """Called by the session when it was closed"""
+        """ Called by the session when it was closed """
         self._detach()
 
     def on_connection_close(self, reason):
