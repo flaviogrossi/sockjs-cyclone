@@ -49,14 +49,14 @@ class SESSION_STATE(Names):
 
 
 class BaseSession(object):
-    """Base session implementation class"""
-    def __init__(self, conn, server):
-        """Base constructor.
+    """ Base session implementation class """
 
-        `conn`
-            Connection class
-        `server`
-            SockJSRouter instance
+    def __init__(self, conn, server):
+        """ Base constructor.
+
+        @param conn: Connection class
+        @param server: SockJSRouter instance
+
         """
         self.server = server
         self.stats = server.stats
@@ -91,15 +91,15 @@ class BaseSession(object):
         return True
 
     def verify_state(self):
-        """Verify if session was not yet opened. If it is, open it and call
-        connections C{on_open}"""
+        """ Verify if session was not yet opened. If it is, open it and call
+        connections C{on_open} """
         if self.state == SESSION_STATE.CONNECTING:
             self.state = SESSION_STATE.OPEN
 
             self.conn.on_open(self.conn_info)
 
     def remove_handler(self, handler):
-        """Remove active handler from the session
+        """ Remove active handler from the session
 
         @param handler: Handler to remove
         """
@@ -110,7 +110,7 @@ class BaseSession(object):
         self.handler = None
 
     def close(self, code=3000, message='Go away!'):
-        """Close session or endpoint connection.
+        """ Close session or endpoint connection.
 
         @param code: Closing code
 
@@ -133,12 +133,13 @@ class BaseSession(object):
                 self.handler.session_closed()
 
     def delayed_close(self):
-        """Delayed close - won't close immediately, but on next ioloop tick."""
+        """ Delayed close - won't close immediately, but on the next reactor
+        loop. """
         self.state = SESSION_STATE.CLOSING
         reactor.callLater(0, self.close)
 
     def get_close_reason(self):
-        """Return last close reason tuple.
+        """ Return last close reason tuple.
 
         For example:
 
@@ -153,23 +154,23 @@ class BaseSession(object):
 
     @property
     def is_closed(self):
-        """Check if session was closed."""
+        """ Check if session was closed. """
         return (self.state == SESSION_STATE.CLOSED 
                 or self.state == SESSION_STATE.CLOSING)
 
     def send_message(self, msg, stats=True):
-        """Send or queue outgoing message
+        """ Send or queue outgoing message
 
-        `msg`
-            Message to send
-        `stats`
-            If set to True, will update statistics after operation completes
+        @param msg: Message to send
+
+        @param stats: If set to True, will update statistics after operation
+                      completes
         """
         raise NotImplemented()
 
     def send_jsonified(self, msg, stats=True):
-        """Send or queue outgoing message which was json-encoded before. Used by
-        the C{broadcast} method.
+        """ Send or queue outgoing message which was json-encoded before. Used
+        by the C{broadcast} method.
 
         @param msg: JSON-encoded message to send
         @param stats: If set to True, will update statistics after operation
@@ -178,21 +179,19 @@ class BaseSession(object):
         raise NotImplemented()
 
     def broadcast(self, clients, msg):
-        """Optimized `broadcast` implementation. Depending on type of the
+        """ Optimized broadcast implementation. Depending on type of the
         session, will json-encode message once and will call either
-        `send_message` or `send_jsonifed`.
+        C{send_message} or C{send_jsonifed}.
 
-        `clients`
-            Clients iterable
-        `msg`
-            Message to send
+        @param clients: Clients iterable
+        @param msg: Message to send
+
         """
         self.server.broadcast(clients, msg)
 
 
 class Session(BaseSession, sessioncontainer.SessionMixin):
-    """SockJS session implementation.
-    """
+    """ SockJS session implementation. """
 
     def __init__(self, conn, server, session_id, expiry=None):
         """ Session constructor.
@@ -225,11 +224,10 @@ class Session(BaseSession, sessioncontainer.SessionMixin):
 
     # Session callbacks
     def on_delete(self, forced):
-        """Session expiration callback
+        """ Session expiration callback
 
-        `forced`
-            If session item explicitly deleted, forced will be set to True. If
-            item expired, will be set to False.
+        @param forced: If session item explicitly deleted, forced will be set to
+                       C{True}. If item expired, will be set to C{False}.
         """
         # Do not remove connection if it was not forced and there's a running
         # connection
@@ -240,16 +238,16 @@ class Session(BaseSession, sessioncontainer.SessionMixin):
 
     # Add session
     def set_handler(self, handler, start_heartbeat=True):
-        """Set active handler for the session
+        """ Set active handler for the session
 
-        `handler`
-            Associate active Tornado handler with the session
-        `start_heartbeat`
-            Should session start heartbeat immediately
+        @param handler: Associate active cyclone handler with the session
+
+        @param start_heartbeat: Should session start heartbeat immediately
         """
         # Check if session already has associated handler
         if self.handler is not None:
-            handler.send_pack(proto.disconnect(2010, "Another connection still open"))
+            handler.send_pack(proto.disconnect(2010,
+                                               "Another connection still open"))
             return False
 
         if self._verify_ip and self.conn_info is not None:
@@ -282,8 +280,8 @@ class Session(BaseSession, sessioncontainer.SessionMixin):
         return True
 
     def verify_state(self):
-        """Verify if session was not yet opened. If it is, open it and call
-        connections `on_open`"""
+        """ Verify if session was not yet opened. If it is, open it and call
+        connections C{on_open} """
         # If we're in CONNECTING state - send 'o' message to the client
         if self.state == SESSION_STATE.CONNECTING:
             self.handler.send_pack(proto.CONNECT)
@@ -292,10 +290,9 @@ class Session(BaseSession, sessioncontainer.SessionMixin):
         super(Session, self).verify_state()
 
     def remove_handler(self, handler):
-        """Detach active handler from the session
+        """ Detach active handler from the session
 
-        `handler`
-            Handler to remove
+        @param handler: Handler to remove
         """
         super(Session, self).remove_handler(handler)
 
@@ -303,22 +300,21 @@ class Session(BaseSession, sessioncontainer.SessionMixin):
         self.stop_heartbeat()
 
     def send_message(self, msg, stats=True):
-        """Send or queue outgoing message
+        """ Send or queue outgoing message
 
-        `msg`
-            Message to send
-        `stats`
-            If set to True, will update statistics after operation completes
+        @param msg: Message to send
+
+        @param stats: If set to True, will update statistics after operation
+                      completes
         """
         self.send_jsonified(proto.json_encode(msg), stats)
 
     def send_jsonified(self, msg, stats=True):
-        """Send JSON-encoded message
+        """ Send JSON-encoded message
 
-        `msg`
-            JSON encoded string to send
-        `stats`
-            If set to True, will update statistics after operation completes
+        @param msg: JSON encoded string to send
+        @param stats: If set to True, will update statistics after operation
+                      completes
         """
         assert isinstance(msg, basestring), 'Can only send strings'
 
@@ -348,7 +344,7 @@ class Session(BaseSession, sessioncontainer.SessionMixin):
             self.stats.on_pack_sent(1)
 
     def flush(self):
-        """Flush message queue if there's an active connection running"""
+        """ Flush message queue if there's an active connection running """
         self._pending_flush = False
 
         if self.handler is None:
@@ -361,12 +357,11 @@ class Session(BaseSession, sessioncontainer.SessionMixin):
         self.send_queue = ''
 
     def close(self, code=3000, message='Go away!'):
-        """Close session.
+        """ Close session.
 
-        `code`
-            Closing code
-        `message`
-            Closing message
+        @param code: Closing code
+
+        @param message: Closing message
         """
         if self.state != SESSION_STATE.CLOSED:
             # Notify handler
@@ -377,35 +372,34 @@ class Session(BaseSession, sessioncontainer.SessionMixin):
 
     # Heartbeats
     def start_heartbeat(self):
-        """Reset hearbeat timer"""
+        """ Reset hearbeat timer """
         self.stop_heartbeat()
 
         self._heartbeat_timer = task.LoopingCall(self._heartbeat)
         self._heartbeat_timer.start(self._heartbeat_interval)
 
     def stop_heartbeat(self):
-        """Stop active heartbeat"""
+        """ Stop active heartbeat """
         if self._heartbeat_timer is not None:
             self._heartbeat_timer.stop()
             self._heartbeat_timer = None
 
     def delay_heartbeat(self):
-        """Delay active heartbeat"""
+        """ Delay active heartbeat """
         if self._heartbeat_timer is not None:
             self._heartbeat_timer.reset()
 
     def _heartbeat(self):
-        """Heartbeat callback"""
+        """ Heartbeat callback """
         if self.handler is not None:
             self.handler.send_pack(proto.HEARTBEAT)
         else:
             self.stop_heartbeat()
 
     def on_messages(self, msg_list):
-        """Handle incoming messages
+        """ Handle incoming messages
 
-        `msg_list`
-            Message list to process
+        @param msg_list: Message list to process
         """
         self.stats.on_pack_recv(len(msg_list))
 
