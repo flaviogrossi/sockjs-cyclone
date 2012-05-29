@@ -1,6 +1,7 @@
 from twisted.python import log
 from twisted.internet import reactor
 from twisted.internet import task
+from twisted.python.constants import NamedConstant, Names
 
 from sockjs.cyclone import sessioncontainer
 from sockjs.cyclone import proto
@@ -36,7 +37,6 @@ class ConnectionInfo(object):
         return self.cookies.get(name)
 
 
-from twisted.python.constants import NamedConstant, Names
 class SESSION_STATE(Names):
     """
     Constants representing Session States
