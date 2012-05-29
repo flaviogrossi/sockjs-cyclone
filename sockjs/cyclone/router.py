@@ -42,9 +42,9 @@ GLOBAL_HANDLERS = [
 TRANSPORTS = {
     'websocket': transports.WebSocketTransport,
     'xhr': transports.XhrPollingTransport,
-#    'xhr_streaming': transports.XhrStreamingTransport,
+    'xhr_streaming': transports.XhrStreamingTransport,
     'jsonp': transports.JSONPTransport,
-#    'eventsource': transports.EventSourceTransport,
+    'eventsource': transports.EventSourceTransport,
     'htmlfile': transports.HtmlFileTransport
 }
 
@@ -52,7 +52,7 @@ STATIC_HANDLERS = {
     '/chunking_test': static.ChunkingTestHandler,
     '/info': static.InfoHandler,
     '/iframe[0-9-.a-z_]*.html': static.IFrameHandler,
-#    '/websocket': transports.RawWebSocketTransport,
+    '/websocket': transports.RawWebSocketTransport,
     '/?': static.GreetingsHandler
 }
 
