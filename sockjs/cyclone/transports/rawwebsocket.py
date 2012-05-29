@@ -1,6 +1,8 @@
 from twisted.python import log
 
-from sockjs.cyclone import websocket, session
+from cyclone import websocket
+
+from sockjs.cyclone import session
 from sockjs.cyclone.transports import base
 
 
