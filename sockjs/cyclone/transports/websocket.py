@@ -63,7 +63,7 @@ class WebSocketTransport(websocket.WebSocketHandler, base.BaseTransportMixin):
             # Close running connection
             self.abort_connection()
 
-    def connectionLost(self):
+    def connectionLost(self, reason):
         # Close session if websocket connection was closed
         if self.session is not None:
             # Stats

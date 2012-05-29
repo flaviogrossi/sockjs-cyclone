@@ -38,23 +38,21 @@ class JSONPTransport(pollingbase.PollingTransportBase):
         else:
             self.session.flush()
 
+    def connectionLost(self, reason):
+        self.session.delayed_close()
+
     def send_pack(self, message):
-        try:
-            # TODO: Just escape
-            msg = '%s(%s);\r\n' % (self.callback, proto.json_encode(message))
+        # TODO: Just escape
+        msg = '%s(%s);\r\n' % (self.callback, proto.json_encode(message))
 
-            self.set_header('Content-Type',
-                            'application/javascript; charset=UTF-8')
-            self.set_header('Content-Length', len(msg))
+        self.set_header('Content-Type',
+                        'application/javascript; charset=UTF-8')
+        self.set_header('Content-Length', len(msg))
 
-            # FIXME
-            self.set_header('Etag', 'dummy')
+        # FIXME
+        self.set_header('Etag', 'dummy')
 
-            self.write(msg)
-        except IOError:
-            # If connection dropped, make sure we close offending session instead
-            # of propagating error all way up.
-            self.session.delayed_close()
+        self.write(msg)
 
         self._detach()
 

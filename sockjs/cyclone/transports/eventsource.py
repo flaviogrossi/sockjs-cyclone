@@ -25,17 +25,15 @@ class EventSourceTransport(streamingbase.StreamingTransportBase):
         if self.session:
             self.session.flush()
 
+    def connectionLost(self, reason):
+        self.session.delayed_close()
+        self._detach()
+
     def send_pack(self, message):
         msg = 'data: %s\r\n\r\n' % message
 
-        try:
-            self.write(msg)
-            self.flush()
-        except IOError:  # TODO
-            # If connection dropped, make sure we close offending session instead
-            # of propagating error all way up.
-            self.session.delayed_close()
-            self._detach()
+        self.write(msg)
+        self.flush()
 
         # Close connection based on amount of data transferred
         if self.should_finish(len(msg)):

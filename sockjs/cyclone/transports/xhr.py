@@ -29,15 +29,13 @@ class XhrPollingTransport(pollingbase.PollingTransportBase):
         else:
             self.session.flush()
 
+    def connectionLost(self, reason):
+        self.session.delayed_close()
+
     def send_pack(self, message):
-        try:
-            self.set_header('Content-Type', 'application/javascript; charset=UTF-8')
-            self.set_header('Content-Length', len(message) + 1)
-            self.write(message + '\n')
-        except IOError:  # FIXME: IOError?
-            # If connection dropped, make sure we close offending session instead
-            # of propagating error all way up.
-            self.session.delayed_close()
+        self.set_header('Content-Type', 'application/javascript; charset=UTF-8')
+        self.set_header('Content-Length', len(message) + 1)
+        self.write(message + '\n')
 
         self._detach()
 

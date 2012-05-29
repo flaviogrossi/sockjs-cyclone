@@ -1,5 +1,3 @@
-import socket
-
 from twisted.python import log
 
 from sockjs.cyclone import websocket, session
@@ -69,20 +67,15 @@ class RawWebSocketTransport(websocket.WebSocketHandler, base.BaseTransportMixin)
             self._detach()
             session.close()
 
+    def connectionLost(self, reason):
+        self.on_close()
+
     def send_pack(self, message):
         # Send message
-        try:
-            self.write_message(message)
-        except IOError:  # TODO: cyclone doesn't raise IOError
-            pass
+        self.write_message(message)
 
     def session_closed(self):
-        try:
-            self.close()
-        except IOError:  # TODO: cyclone doesn't raise IOError
-            pass
-        finally:
-            self._detach()
+        self.close()
 
     # Websocket overrides
     def allow_draft76(self):
