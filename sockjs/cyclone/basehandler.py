@@ -72,17 +72,8 @@ class BaseHandler(RequestHandler):
         self.set_cookie('JSESSIONID', cv)
 
     def safe_finish(self):
-        """ Finish session. If it will blow up - connection was set to
-        Keep-Alive and client dropped connection, ignore any IOError or socket
-        error. """
-        try:
-            self.finish()
-        except (socket.error, IOError):
-            # We don't want to raise IOError exception if finish() call fails.
-            # It can happen if connection is set to Keep-Alive, but client
-            # closes connection after receiving response.
-            #logging.debug('Ignoring IOError in safe_finish()') FIXME
-            pass
+        """ Finish session. """
+        self.finish()
 
 
 class PreflightHandler(BaseHandler):

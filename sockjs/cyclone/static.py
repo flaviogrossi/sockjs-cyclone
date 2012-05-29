@@ -95,18 +95,15 @@ class ChunkingTestHandler(PreflightHandler):
 
         # Send 'h' with different timeouts
         def run_step():
-            try:
-                self.write('h\n')
-                self.flush()
+            self.write('h\n')
+            self.flush()
 
-                self.step += 1
-                if self.step < len(self.steps):
-                    reactor.callLater(time.time() + self.steps[self.step],
-                                      run_step)
-                else:
-                    self.finish()
-            except IOError:
-                pass
+            self.step += 1
+            if self.step < len(self.steps):
+                reactor.callLater(time.time() + self.steps[self.step],
+                                  run_step)
+            else:
+                self.finish()
 
         reactor.callLater(time.time() + self.steps[self.step], run_step)
 
