@@ -13,12 +13,11 @@ class ConnectionInfo(object):
 
     Has few properties:
 
-    `ip`
-        Caller IP address
-    `cookies`
-        Collection of cookies
-    `arguments`
-        Collection of the query string arguments
+    @cvar ip: Caller IP address
+
+    @cvar cookies: Collection of cookies
+
+    @cvar arguments: Collection of the query string arguments
     """
     def __init__(self, ip, cookies, arguments):
         self.ip = ip
