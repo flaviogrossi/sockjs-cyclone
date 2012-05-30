@@ -336,7 +336,7 @@ class Session(BaseSession, sessioncontainer.SessionMixin):
             self.send_queue += msg
 
             if not self._pending_flush:
-                self.server.io_loop.add_callback(self.flush)
+                reactor.callLater(0, self.flush)
                 self._pending_flush = True
 
         if stats:

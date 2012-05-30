@@ -1,7 +1,6 @@
 """ Various base http handlers """
 
 import datetime
-import socket
 
 from cyclone.web import asynchronous, RequestHandler
 
