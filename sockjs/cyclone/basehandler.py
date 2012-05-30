@@ -71,8 +71,12 @@ class BaseHandler(RequestHandler):
         self.set_cookie('JSESSIONID', cv)
 
     def safe_finish(self):
-        """ Finish session. """
-        self.finish()
+        """ Finish session safely (do not raise if already finished by a dropped
+        connection). """
+        try:
+            self.finish()
+        except Exception:
+            pass
 
 
 class PreflightHandler(BaseHandler):

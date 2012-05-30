@@ -3,7 +3,6 @@ from sockjs.cyclone.transports import base
 
 
 class PollingTransportBase(basehandler.PreflightHandler, base.BaseTransportMixin):
-
     """ Polling transport handler base class """
 
     def initialize(self, server):

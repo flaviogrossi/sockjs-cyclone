@@ -375,7 +375,7 @@ class Session(BaseSession, sessioncontainer.SessionMixin):
         self.stop_heartbeat()
 
         self._heartbeat_timer = task.LoopingCall(self._heartbeat)
-        self._heartbeat_timer.start(self._heartbeat_interval)
+        self._heartbeat_timer.start(self._heartbeat_interval, False)
 
     def stop_heartbeat(self):
         """ Stop active heartbeat """
