@@ -30,10 +30,9 @@ class RawWebSocketTransport(websocket.WebSocketHandler, base.BaseTransportMixin)
         # Stats
         self.server.stats.on_conn_opened()
 
-        # FIXME
-        # Disable nagle if needed
-        #if self.server.settings['disable_nagle']:
-        #    self.stream.socket.setsockopt(socket.SOL_TCP, socket.TCP_NODELAY, 1)
+        # Disable nagle if required
+        if self.server.settings['disable_nagle']:
+            self.transport.setTcpNoDelay(True)
 
         # Create and attach to session
         self.session = RawSession(self.server.get_connection_class(), self.server)
