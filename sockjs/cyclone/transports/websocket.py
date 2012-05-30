@@ -2,10 +2,9 @@
 
 from twisted.python import log
 
-from cyclone import websocket
-
 from sockjs.cyclone import proto
 from sockjs.cyclone.transports import base
+from sockjs.cyclone import websocket
 
 
 class WebSocketTransport(websocket.WebSocketHandler, base.BaseTransportMixin):
