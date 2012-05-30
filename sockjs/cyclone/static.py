@@ -78,7 +78,6 @@ class ChunkingTestHandler(PreflightHandler):
     def initialize(self, server):
         self.server = server
         self.step = 0
-        self.io_loop = server.io_loop
 
     @asynchronous
     def post(self):
