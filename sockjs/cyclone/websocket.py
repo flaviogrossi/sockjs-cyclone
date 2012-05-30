@@ -3,6 +3,9 @@ import cyclone.websocket
 
 class WebSocketHandler(cyclone.websocket.WebSocketHandler):
     def _execute(self, *args, **kwargs):
+        if not self._closeIfInvalidMethod():
+            return
+
         if not self._closeIfInvalidUpgradeHeader():
             return
 
@@ -10,6 +13,18 @@ class WebSocketHandler(cyclone.websocket.WebSocketHandler):
             return
 
         super(WebSocketHandler, self)._execute(*args, **kwargs)
+
+    def _closeIfInvalidMethod(self):
+        if self.request.method != "GET":
+            resp = ( "HTTP/1.1 405 Method Not Allowed\r\n"
+                     "Allow: GET\r\n"
+                     "Connection: Close\r\n"
+                     "\r\n"
+                   )
+            self._writeAndClose(resp)
+            return False
+        
+        return True
 
     def _writeAndClose(self, resp):
         self.transport.write(cyclone.escape.utf8(resp))
