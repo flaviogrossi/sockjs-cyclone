@@ -22,8 +22,8 @@ class SockJSConnection(object):
         """
         pass
 
-    def on_message(self, message):
-        """ Default on_message handler. Must be overridden in your
+    def messageReceived(self, message):
+        """ Default messageReceived handler. Must be overridden in your
         application """
         raise NotImplementedError()
 

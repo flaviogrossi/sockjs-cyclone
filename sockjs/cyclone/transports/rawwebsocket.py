@@ -13,8 +13,8 @@ class RawSession(session.BaseSession):
     def send_message(self, msg):
         self.handler.send_pack(msg)
 
-    def on_message(self, msg):
-        self.conn.on_message(msg)
+    def messageReceived(self, msg):
+        self.conn.messageReceived(msg)
 
 
 class RawWebSocketTransport(websocket.WebSocketHandler, base.BaseTransportMixin):
@@ -50,9 +50,9 @@ class RawWebSocketTransport(websocket.WebSocketHandler, base.BaseTransportMixin)
             return
 
         try:
-            self.session.on_message(message)
+            self.session.messageReceived(message)
         except Exception as e:
-            log.msg('RawWebSocketTransport.on_message: %r' % e)
+            log.msg('RawWebSocketTransport.messageReceived: %r' % e)
 
             # Close running connection
             self._detach()

@@ -49,9 +49,9 @@ class WebSocketTransport(websocket.WebSocketHandler, base.BaseTransportMixin):
             msg = proto.json_decode(message)
 
             if isinstance(msg, list):
-                self.session.on_messages(msg)
+                self.session.messagesReceived(msg)
             else:
-                self.session.on_messages((msg,))
+                self.session.messagesReceived((msg,))
         except Exception as e:
             log.msg('WebSocketTransport.messageReceived: %r' % e)
 

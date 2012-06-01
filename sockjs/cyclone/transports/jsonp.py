@@ -103,9 +103,9 @@ class JSONPSendHandler(pollingbase.PollingTransportBase):
             return
 
         try:
-            session.on_messages(messages)
+            session.messagesReceived(messages)
         except Exception:
-            log.msg('jsonp_send: on_message() failed')
+            log.msg('jsonp_send: messagesReceived() failed')
 
             session.close()
 

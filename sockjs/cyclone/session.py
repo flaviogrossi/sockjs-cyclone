@@ -395,7 +395,7 @@ class Session(BaseSession, sessioncontainer.SessionMixin):
         else:
             self.stop_heartbeat()
 
-    def on_messages(self, msg_list):
+    def messagesReceived(self, msg_list):
         """ Handle incoming messages
 
         @param msg_list: Message list to process
@@ -403,5 +403,5 @@ class Session(BaseSession, sessioncontainer.SessionMixin):
         self.stats.on_pack_recv(len(msg_list))
 
         for msg in msg_list:
-            self.conn.on_message(msg)
+            self.conn.messageReceived(msg)
 

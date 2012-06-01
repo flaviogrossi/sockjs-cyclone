@@ -11,7 +11,7 @@ from sockjs.cyclone import SockJSRouter
 
 
 class EchoConnection(SockJSConnection):
-    def on_message(self, msg):
+    def messageReceived(self, msg):
         self.send(msg)
 
 
@@ -19,7 +19,7 @@ class CloseConnection(SockJSConnection):
     def connectionMade(self, info):
         self.close()
 
-    def on_message(self, msg):
+    def messageReceived(self, msg):
         pass
 
 
@@ -41,7 +41,7 @@ class BroadcastConnection(SockJSConnection):
     def connectionMade(self, info):
         self.clients.add(self)
 
-    def on_message(self, msg):
+    def messageReceived(self, msg):
         self.broadcast(self.clients, msg)
 
     def on_close(self):
@@ -49,7 +49,7 @@ class BroadcastConnection(SockJSConnection):
 
 
 class AmplifyConnection(SockJSConnection):
-    def on_message(self, msg):
+    def messageReceived(self, msg):
         n = int(msg)
         if n < 0 or n > 19:
             n = 1
@@ -58,7 +58,7 @@ class AmplifyConnection(SockJSConnection):
 
 
 class CookieEcho(SockJSConnection):
-    def on_message(self, msg):
+    def messageReceived(self, msg):
         self.send(msg)
 
 
