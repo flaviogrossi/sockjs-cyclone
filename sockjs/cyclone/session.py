@@ -10,7 +10,7 @@ from sockjs.cyclone import proto
 class ConnectionInfo(object):
     """ Connection information object.
 
-    Will be passed to the C{on_open} handler of your connection class.
+    Will be passed to the C{connectionMade} handler of your connection class.
 
     Has few properties:
 
@@ -91,11 +91,11 @@ class BaseSession(object):
 
     def verify_state(self):
         """ Verify if session was not yet opened. If it is, open it and call
-        connections C{on_open} """
+        connections C{connectionMade} """
         if self.state == SESSION_STATE.CONNECTING:
             self.state = SESSION_STATE.OPEN
 
-            self.conn.on_open(self.conn_info)
+            self.conn.connectionMade(self.conn_info)
 
     def remove_handler(self, handler):
         """ Remove active handler from the session
@@ -280,7 +280,7 @@ class Session(BaseSession, sessioncontainer.SessionMixin):
 
     def verify_state(self):
         """ Verify if session was not yet opened. If it is, open it and call
-        connections C{on_open} """
+        connections C{connectionMade} """
         # If we're in CONNECTING state - send 'o' message to the client
         if self.state == SESSION_STATE.CONNECTING:
             self.handler.send_pack(proto.CONNECT)

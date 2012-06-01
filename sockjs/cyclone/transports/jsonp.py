@@ -29,7 +29,8 @@ class JSONPTransport(pollingbase.PollingTransportBase):
         if not self._attach_session(session_id, False):
             return
 
-        # Might get already detached because connection was closed in on_open
+        # Might get already detached because connection was closed in
+        # connectionMade
         if not self.session:
             return
 

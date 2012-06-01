@@ -16,7 +16,7 @@ class EchoConnection(SockJSConnection):
 
 
 class CloseConnection(SockJSConnection):
-    def on_open(self, info):
+    def connectionMade(self, info):
         self.close()
 
     def on_message(self, msg):
@@ -24,7 +24,7 @@ class CloseConnection(SockJSConnection):
 
 
 class TickerConnection(SockJSConnection):
-    def on_open(self, info):
+    def connectionMade(self, info):
         self.timeout = task.LoopingCall(self._ticker)
         self.timeout.start(1)
 
@@ -38,7 +38,7 @@ class TickerConnection(SockJSConnection):
 class BroadcastConnection(SockJSConnection):
     clients = set()
 
-    def on_open(self, info):
+    def connectionMade(self, info):
         self.clients.add(self)
 
     def on_message(self, msg):

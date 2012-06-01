@@ -7,8 +7,8 @@ class SockJSConnection(object):
         self.session = session
 
     # Public API
-    def on_open(self, request):
-        """Default on_open() handler.
+    def connectionMade(self, request):
+        """Default connectionMade() handler.
 
         Override when you need to do some initialization or request validation.
         If you return False, connection will be rejected.
