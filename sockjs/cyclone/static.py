@@ -98,12 +98,11 @@ class ChunkingTestHandler(PreflightHandler):
 
             self.step += 1
             if self.step < len(self.steps):
-                reactor.callLater(time.time() + self.steps[self.step],
-                                  run_step)
+                reactor.callLater(self.steps[self.step], run_step)
             else:
                 self.finish()
 
-        reactor.callLater(time.time() + self.steps[self.step], run_step)
+        reactor.callLater(self.steps[self.step], run_step)
 
 
 class InfoHandler(PreflightHandler):
