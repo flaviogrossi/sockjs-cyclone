@@ -40,15 +40,14 @@ class IFrameHandler(BaseHandler):
         hsh = hashlib.md5(data).hexdigest()
 
         value = self.request.headers.get('If-None-Match')
-        if value:
-            if value.find(hsh) != -1:
-                # TODO: Fix me? Right now it is a hack to remove content-type
-                # header
-                self.clear()
-                del self._headers['Content-Type']
+        if value and value.find(hsh) != -1:
+            # TODO: Fix me? Right now it is a hack to remove content-type
+            # header
+            self.clear()
+            del self._headers['Content-Type']
 
-                self.set_status(304)
-                return
+            self.set_status(304)
+            return
 
         self.enable_cache()
 
@@ -89,7 +88,7 @@ class ChunkingTestHandler(PreflightHandler):
         self.flush()
 
         # Send 2048 spaces followed by 'h'
-        self.write(' ' * 2048 + 'h\n')
+        self.write('%sh\n' % ' ' * 2048)
         self.flush()
 
         # Send 'h' with different timeouts
