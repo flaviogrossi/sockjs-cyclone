@@ -44,7 +44,7 @@ class RawWebSocketTransport(websocket.WebSocketHandler, base.BaseTransportMixin)
             self.session.remove_handler(self)
             self.session = None
 
-    def on_message(self, message):
+    def messageReceived(self, message):
         # Ignore empty messages
         if not message or not self.session:
             return
@@ -52,11 +52,11 @@ class RawWebSocketTransport(websocket.WebSocketHandler, base.BaseTransportMixin)
         try:
             self.session.on_message(message)
         except Exception as e:
-            log.mgs('RawWebSocketTransport: %r' % e)
+            log.msg('RawWebSocketTransport.on_message: %r' % e)
 
             # Close running connection
             self._detach()
-            self.abort_connection()
+            self.transport.loseConnection()
 
     def on_close(self):
         # Close session if websocket connection was closed
@@ -79,6 +79,7 @@ class RawWebSocketTransport(websocket.WebSocketHandler, base.BaseTransportMixin)
         self.close()
 
     # Websocket overrides
+    # TODO: unused in cyclone
     def allow_draft76(self):
         return True
 

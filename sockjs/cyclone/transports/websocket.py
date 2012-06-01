@@ -52,14 +52,14 @@ class WebSocketTransport(websocket.WebSocketHandler, base.BaseTransportMixin):
                 self.session.on_messages(msg)
             else:
                 self.session.on_messages((msg,))
-        except Exception:
-            log.msg('WebSocket')
+        except Exception as e:
+            log.msg('WebSocketTransport.messageReceived: %r' % e)
 
             # Close session on exception
             #self.session.close()
 
             # Close running connection
-            self.abort_connection()
+            self.transport.loseConnection()
 
     def connectionLost(self, reason):
         # Close session if websocket connection was closed

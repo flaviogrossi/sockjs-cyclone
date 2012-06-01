@@ -1,4 +1,5 @@
 import sys
+import time
 
 from twisted.python import log
 from twisted.internet import task
@@ -10,17 +11,16 @@ from sockjs.cyclone import SockJSConnection
 from sockjs.cyclone import SockJSRouter
 
 
-class CounterConnection(SockJSConnection):
-    count = 0
+class DateConnection(SockJSConnection):
 
     def __init__(self, *args, **kwargs):
-        super(CounterConnection, self).__init__(*args, **kwargs)
-        counter_task = task.LoopingCall(self.counter)
-        counter_task.start(1)
+        super(DateConnection, self).__init__(*args, **kwargs)
+        timer_task = task.LoopingCall(self.send_time)
+        timer_task.start(1)
 
-    def counter(self):
-        self.count += 1
-        self.send(self.count)
+    def send_time(self):
+        now = time.localtime()
+        self.send(time.strftime('%H:%M:%S', now))
 
 
 class MainHandler(web.RequestHandler):
@@ -32,9 +32,9 @@ class SockJsTestServer(web.Application, object):
     def __init__(self):
         settings = dict(autoescape=None)
 
-        counterRouter = SockJSRouter(CounterConnection, prefix='/counter')
+        timerRouter = SockJSRouter(DateConnection, prefix='/timer')
 
-        handlers = [ (r'/', MainHandler) ] + counterRouter.urls
+        handlers = [ (r'/', MainHandler) ] + timerRouter.urls
 
         super(SockJsTestServer, self).__init__(handlers, **settings)
 
