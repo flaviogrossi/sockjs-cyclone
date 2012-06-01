@@ -1,16 +1,17 @@
+from __future__ import division
+
 from collections import deque
 
 from twisted.internet import task, reactor
 
 
 class MovingAverage(object):
-    """Moving average class implementation"""
+    """ Moving average class implementation """
     def __init__(self, period=10):
         """Constructor.
 
-        `period`
-            Moving window size. Average will be calculated
-            from the data in the window.
+        @param period: Moving window size. Average will be calculated from the
+                       data in the window.
         """
         self.period = period
         self.stream = deque()
@@ -19,17 +20,16 @@ class MovingAverage(object):
         self.last_average = 0
 
     def add(self, n):
-        """Add value to the current accumulator
+        """ Add value to the current accumulator
 
-        `n`
-            Value to add
+        @param n: Value to add
         """
         self.accumulator += n
 
     def flush(self):
-        """Add accumulator to the moving average queue
-        and reset it. For example, called by the StatsCollector
-        once per second to calculate per-second average.
+        """ Add accumulator to the moving average queue and reset it. For
+        example, called by the StatsCollector once per second to calculate
+        per-second average.
         """
         n = self.accumulator
         self.accumulator = 0
@@ -47,7 +47,7 @@ class MovingAverage(object):
         if streamlen == 0:
             self.last_average = 0
         else:
-            self.last_average = self.sum / float(streamlen)
+            self.last_average = self.sum / streamlen
 
 
 class StatsCollector(object):
