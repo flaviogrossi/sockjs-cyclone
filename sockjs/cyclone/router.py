@@ -40,7 +40,7 @@ GLOBAL_HANDLERS = [
 ]
 
 TRANSPORTS = {
-    #'websocket': transports.WebSocketTransport,
+    #'websocket': transports.WebSocketTransport,   FIXME
     'xhr': transports.XhrPollingTransport,
     'xhr_streaming': transports.XhrStreamingTransport,
     'jsonp': transports.JSONPTransport,
@@ -52,7 +52,7 @@ STATIC_HANDLERS = {
     '/chunking_test': static.ChunkingTestHandler,
     '/info': static.InfoHandler,
     '/iframe[0-9-.a-z_]*.html': static.IFrameHandler,
-    #'/websocket': transports.RawWebSocketTransport,
+    #'/websocket': transports.RawWebSocketTransport,   FIXME
     '/?': static.GreetingsHandler
 }
 
@@ -104,7 +104,7 @@ class SockJSRouter(object):
     def _initialize_sessions(self):
         self._sessions = sessioncontainer.SessionContainer()
 
-        check_interval = self.settings['session_check_interval'] * 1000
+        check_interval = self.settings['session_check_interval']
 
         self._sessions_cleanup = task.LoopingCall(self._sessions.expire)
         self._sessions_cleanup.start(check_interval)
