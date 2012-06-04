@@ -44,7 +44,6 @@ class HtmlFileTransport(streamingbase.StreamingTransportBase):
             self.finish()
             return
 
-        # FIXME - use parameter
         self.write(HTMLFILE_HEAD % callback)
         self.flush()
 

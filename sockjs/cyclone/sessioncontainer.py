@@ -3,10 +3,6 @@ import time
 import hashlib
 import heapq
 
-def _random_key():
-    """ Return random session key """
-    return hashlib.md5( '%s%s' % (random.random(), time.time()) ).hexdigest()
-
 
 class SessionMixin(object):
     """ Represents one session object stored in the session container.
@@ -22,12 +18,17 @@ class SessionMixin(object):
         @param expiry: Expiration time in seconds. If not provided, will never
                        expire.
         """
-        self.session_id = session_id or _random_key()
+        self.session_id = session_id or self._random_key()
         self.promoted = None
         self.expiry = expiry
 
         if self.expiry is not None:
             self.expiry_date = time.time() + self.expiry
+
+    def _random_key():
+        """ Return random session key """
+        hashstr = '%s%s' % (random.random(), time.time())
+        return hashlib.md5(hashstr).hexdigest()
 
     def is_alive(self):
         """ Check if session is still alive """
