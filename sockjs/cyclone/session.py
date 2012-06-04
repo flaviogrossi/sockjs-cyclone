@@ -197,7 +197,7 @@ class SessionMixin(object):
         Derive from this object to store additional data.
     """
 
-    def __init__(self, session_id=None, expiry=None):
+    def __init__(self, session_id=None, expiry=None, time_module=time):
         """ Constructor.
 
         @param session_id: Optional session id. If not provided, will generate
@@ -205,29 +205,34 @@ class SessionMixin(object):
 
         @param expiry: Expiration time in seconds. If not provided, will never
                        expire.
+
+        @param time_module: only used for unit testing. A provider for a time()
+                            function
         """
+        self.time_module = time_module
+
         self.session_id = session_id or self._random_key()
         self.promoted = None
         self.expiry = expiry
 
         if self.expiry is not None:
-            self.expiry_date = time.time() + self.expiry
+            self.expiry_date = self.time_module.time() + self.expiry
 
     def _random_key(self):
         """ Return random session key """
-        hashstr = '%s%s' % (random.random(), time.time())
+        hashstr = '%s%s' % (random.random(), self.time_module.time())
         return hashlib.md5(hashstr).hexdigest()
 
     def is_alive(self):
         """ Check if session is still alive """
-        return self.expiry_date > time.time()
+        return self.expiry_date > self.time_module.time()
 
     def promote(self):
         """ Mark object as alive, so it won't be collected during next
         run of the garbage collector.
         """
         if self.expiry is not None:
-            self.promoted = time.time() + self.expiry
+            self.promoted = self.time_module.time() + self.expiry
 
     def on_delete(self, forced):
         """ Triggered when object was expired or deleted. """
