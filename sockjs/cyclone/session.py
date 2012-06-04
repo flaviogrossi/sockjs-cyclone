@@ -213,7 +213,7 @@ class SessionMixin(object):
         if self.expiry is not None:
             self.expiry_date = time.time() + self.expiry
 
-    def _random_key():
+    def _random_key(self):
         """ Return random session key """
         hashstr = '%s%s' % (random.random(), time.time())
         return hashlib.md5(hashstr).hexdigest()
