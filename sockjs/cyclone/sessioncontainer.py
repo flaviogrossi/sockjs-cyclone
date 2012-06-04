@@ -3,22 +3,15 @@ import time
 
 
 class SessionContainer(object):
-    """Session container object.
-
-    If we will implement sessions with Tornado timeouts, for polling transports
-    it will be nightmare - if load will be high, number of discarded timeouts
-    will be huge and will be huge performance hit, as Tornado will have to
-    clean them up all the time.
-    """
+    """ Session container object. """
     def __init__(self):
         self._items = dict()
         self._queue = []
 
     def add(self, session):
-        """Add session to the container.
+        """ Add session to the container.
 
-        `session`
-            Session object
+        @param session: Session object
         """
         self._items[session.session_id] = session
 
@@ -26,18 +19,16 @@ class SessionContainer(object):
             heapq.heappush(self._queue, session)
 
     def get(self, session_id):
-        """Return session object or None if it is not available
+        """ Return session object or None if it is not available
 
-        `session_id`
-            Session identifier
+        @param session_id: Session identifier
         """
         return self._items.get(session_id, None)
 
     def remove(self, session_id):
-        """Remove session object from the container
+        """ Remove session object from the container
 
-        `session_id`
-            Session identifier
+        @param session_id: Session identifier
         """
         session = self._items.get(session_id, None)
 
@@ -50,10 +41,10 @@ class SessionContainer(object):
         return False
 
     def expire(self, current_time=None):
-        """Expire any old entries
+        """ Expire any old entries
 
-        `current_time`
-            Optional time to be used to clean up queue (can be used in unit tests)
+        @param current_time: Optional time to be used to clean up queue (can be
+                             used in unit tests)
         """
         if not self._queue:
             return
