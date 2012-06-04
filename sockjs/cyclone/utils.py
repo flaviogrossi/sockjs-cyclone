@@ -27,6 +27,8 @@ class SendQueue(object):
 
 
 class PriorityQueue(object):
+    """ Simplistic priority queue.
+    """
     def __init__(self):
         self._queue = []
 
@@ -34,15 +36,20 @@ class PriorityQueue(object):
                                            # in elements with the same priority
 
     def put(self, el):
+        """ Put a new element in the queue. """
         count = next(self.counter)
         heapq.heappush(self._queue, (el, count))
 
     def peek(self):
+        """ Returns the highest priority elemente from the queue without
+        removing it. """
         return self._queue[0][0]
     
     def pop(self):
+        """ Remove and returns the highest priority element form the queue. """
         return heapq.heappop(self._queue)[0]
 
     def is_empty(self):
+        """ Checks if the queue is empty. """
         return not self._queue
 
