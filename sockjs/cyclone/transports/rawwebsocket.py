@@ -28,7 +28,7 @@ class RawWebSocketTransport(websocket.WebSocketHandler, base.BaseTransportMixin)
 
     def open(self):
         # Stats
-        self.server.stats.on_conn_opened()
+        self.server.stats.connectionOpened()
 
         # Disable nagle if required
         if self.server.settings['disable_nagle']:
@@ -62,7 +62,7 @@ class RawWebSocketTransport(websocket.WebSocketHandler, base.BaseTransportMixin)
         # Close session if websocket connection was closed
         if self.session is not None:
             # Stats
-            self.server.stats.on_conn_closed()
+            self.server.stats.connectionClosed()
 
             session = self.session
             self._detach()

@@ -97,7 +97,7 @@ class StatsCollector(object):
         return data
 
     # Various event callbacks
-    def on_sess_opened(self, transport):
+    def sessionOpened(self, transport):
         self.sess_active += 1
 
         if transport not in self.sess_transports:
@@ -105,20 +105,20 @@ class StatsCollector(object):
 
         self.sess_transports[transport] += 1
 
-    def on_sess_closed(self, transport):
+    def sessionClosed(self, transport):
         self.sess_active -= 1
         self.sess_transports[transport] -= 1
 
-    def on_conn_opened(self):
+    def connectionOpened(self):
         self.conn_active += 1
         self.conn_ps.add(1)
 
-    def on_conn_closed(self):
+    def connectionClosed(self):
         self.conn_active -= 1
 
-    def on_pack_sent(self, num):
+    def packSent(self, num):
         self.pack_sent_ps.add(num)
 
-    def on_pack_recv(self, num):
+    def packReceived(self, num):
         self.pack_recv_ps.add(num)
 
