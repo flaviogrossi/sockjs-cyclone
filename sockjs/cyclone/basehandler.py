@@ -4,11 +4,12 @@ import datetime
 
 from cyclone.web import asynchronous, RequestHandler
 
-CACHE_TIME = 31536000
-
 
 class BaseHandler(RequestHandler):
     """ Base request handler with set of helpers."""
+
+    CACHE_TIME = 31536000
+
 
     def initialize(self, server):
         """ Initialize request
@@ -43,12 +44,13 @@ class BaseHandler(RequestHandler):
     # Various helpers
     def enable_cache(self):
         """ Enable client-side caching for the current request """
-        self.set_header('Cache-Control', 'max-age=%d, public' % CACHE_TIME)
+        self.set_header('Cache-Control', 'max-age=%d, public' % self.CACHE_TIME)
 
-        d = datetime.datetime.now() + datetime.timedelta(seconds=CACHE_TIME)
+        d = datetime.datetime.now() + datetime.timedelta(
+                                                    seconds=self.CACHE_TIME)
         self.set_header('Expires', d.strftime('%a, %d %b %Y %H:%M:%S'))
 
-        self.set_header('access-control-max-age', CACHE_TIME)
+        self.set_header('access-control-max-age', self.CACHE_TIME)
 
     def disable_cache(self):
         """ Disable client-side cache for the current request """
