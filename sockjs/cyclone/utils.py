@@ -52,4 +52,7 @@ class PriorityQueue(object):
     def is_empty(self):
         """ Checks if the queue is empty. """
         return not self._queue
+    
+    def __contains__(self, el):
+        return el in [ el[0] for el in self._queue ]
 
