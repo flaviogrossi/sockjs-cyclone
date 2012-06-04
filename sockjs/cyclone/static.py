@@ -3,7 +3,6 @@
 import hashlib
 import random
 import sys
-import time
 
 from twisted.internet import reactor
 
