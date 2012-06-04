@@ -384,10 +384,10 @@ class Session(BaseSession, SessionMixin):
                 # Send message right away
                 self.handler.send_pack('a[%s]' % msg)
             else:
-                self.send_queue.put(msg)
+                self.send_queue.push(msg)
                 self.flush()
         else:
-            self.send_queue.put(msg)
+            self.send_queue.push(msg)
 
             if not self._pending_flush:
                 reactor.callLater(0, self.flush)

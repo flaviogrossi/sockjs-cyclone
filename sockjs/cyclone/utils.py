@@ -9,8 +9,8 @@ class SendQueue(object):
         self.SEPARATOR = separator
         self._queue = []
 
-    def put(self, msg):
-        """ puts a new message in the queue. """
+    def push(self, msg):
+        """ pushes a new message in the queue. """
         self._queue.append(msg)
 
     def get(self):
@@ -35,7 +35,7 @@ class PriorityQueue(object):
         self.counter = itertools.count()   # needed to preserve insertion order
                                            # in elements with the same priority
 
-    def put(self, el):
+    def push(self, el):
         """ Put a new element in the queue. """
         count = next(self.counter)
         heapq.heappush(self._queue, (el, count))

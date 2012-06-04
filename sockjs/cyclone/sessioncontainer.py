@@ -1,12 +1,13 @@
-import heapq
 import time
+
+from sockjs.cyclone.utils import PriorityQueue
 
 
 class SessionContainer(object):
     """ Session container object. """
     def __init__(self):
         self._items = dict()
-        self._queue = []
+        self._queue = PriorityQueue()
 
     def add(self, session):
         """ Add session to the container.
@@ -16,7 +17,7 @@ class SessionContainer(object):
         self._items[session.session_id] = session
 
         if session.expiry is not None:
-            heapq.heappush(self._queue, session)
+            self._queue.push(session)
 
     def get(self, session_id):
         """ Return session object or None if it is not available
@@ -46,15 +47,15 @@ class SessionContainer(object):
         @param current_time: Optional time to be used to clean up queue (can be
                              used in unit tests)
         """
-        if not self._queue:
+        if self._queue.is_empty():
             return
 
         if current_time is None:
             current_time = time.time()
 
-        while self._queue:
+        while not self._queue.is_empty():
             # Get top most item
-            top = self._queue[0]
+            top = self._queue.peek()
 
             # Early exit if item was not promoted and its expiration time
             # is greater than now.
@@ -62,7 +63,7 @@ class SessionContainer(object):
                 break
 
             # Pop item from the stack
-            top = heapq.heappop(self._queue)
+            top = self._queue.pop()
 
             need_reschedule = (top.promoted is not None
                                and top.promoted > current_time)
@@ -80,7 +81,7 @@ class SessionContainer(object):
             if need_reschedule:
                 top.expiry_date = top.promoted
                 top.promoted = None
-                heapq.heappush(self._queue, top)
+                self._queue.push(top)
             else:
                 del self._items[top.session_id]
 
