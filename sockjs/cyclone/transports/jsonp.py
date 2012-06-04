@@ -34,7 +34,7 @@ class JSONPTransport(pollingbase.PollingTransportBase):
         if not self.session:
             return
 
-        if not self.session.send_queue:
+        if self.session.send_queue.is_empty():
             self.session.start_heartbeat()
         else:
             self.session.flush()
