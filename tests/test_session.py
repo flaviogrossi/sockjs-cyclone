@@ -2,6 +2,7 @@ from twisted.trial import unittest
 
 from sockjs.cyclone import session
 
+
 class ConnectionInfoTest(unittest.TestCase):
 
     def test_instantiate(self):
