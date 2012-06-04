@@ -1,57 +1,6 @@
-import random
-import time
-import hashlib
 import heapq
+import time
 
-
-class SessionMixin(object):
-    """ Represents one session object stored in the session container.
-        Derive from this object to store additional data.
-    """
-
-    def __init__(self, session_id=None, expiry=None):
-        """ Constructor.
-
-        @param session_id: Optional session id. If not provided, will generate
-                           new session id.
-
-        @param expiry: Expiration time in seconds. If not provided, will never
-                       expire.
-        """
-        self.session_id = session_id or self._random_key()
-        self.promoted = None
-        self.expiry = expiry
-
-        if self.expiry is not None:
-            self.expiry_date = time.time() + self.expiry
-
-    def _random_key():
-        """ Return random session key """
-        hashstr = '%s%s' % (random.random(), time.time())
-        return hashlib.md5(hashstr).hexdigest()
-
-    def is_alive(self):
-        """ Check if session is still alive """
-        return self.expiry_date > time.time()
-
-    def promote(self):
-        """ Mark object as alive, so it won't be collected during next
-        run of the garbage collector.
-        """
-        if self.expiry is not None:
-            self.promoted = time.time() + self.expiry
-
-    def on_delete(self, forced):
-        """ Triggered when object was expired or deleted. """
-        pass
-
-    def __cmp__(self, other):
-        return cmp(self.expiry_date, other.expiry_date)
-
-    def __repr__(self):
-        return '%f %s %d' % (getattr(self, 'expiry_date', -1),
-                             self.session_id,
-                             self.promoted or 0)
 
 class SessionContainer(object):
     """Session container object.
