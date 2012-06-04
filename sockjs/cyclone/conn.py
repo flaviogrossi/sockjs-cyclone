@@ -27,7 +27,7 @@ class SockJSConnection(object):
         application """
         raise NotImplementedError()
 
-    def on_close(self):
+    def connectionLost(self):
         """ Default on_close handler. """
         pass
 

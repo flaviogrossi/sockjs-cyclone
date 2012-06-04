@@ -58,7 +58,7 @@ class RawWebSocketTransport(websocket.WebSocketHandler, base.BaseTransportMixin)
             self._detach()
             self.transport.loseConnection()
 
-    def on_close(self):
+    def connectionLost(self, reason):
         # Close session if websocket connection was closed
         if self.session is not None:
             # Stats
@@ -67,9 +67,6 @@ class RawWebSocketTransport(websocket.WebSocketHandler, base.BaseTransportMixin)
             session = self.session
             self._detach()
             session.close()
-
-    def connectionLost(self, reason):
-        self.on_close()
 
     def send_pack(self, message):
         # Send message

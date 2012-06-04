@@ -28,7 +28,7 @@ class TickerConnection(SockJSConnection):
         self.timeout = task.LoopingCall(self._ticker)
         self.timeout.start(1)
 
-    def on_close(self):
+    def connectionLost(self):
         self.timeout.stop()
 
     def _ticker(self):
@@ -44,7 +44,7 @@ class BroadcastConnection(SockJSConnection):
     def messageReceived(self, msg):
         self.broadcast(self.clients, msg)
 
-    def on_close(self):
+    def connectionLost(self):
         self.clients.remove(self)
 
 

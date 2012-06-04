@@ -76,7 +76,7 @@ class BaseSession(object):
         self.close_reason = None
 
     def set_handler(self, handler):
-        """Set transport handler
+        """ Set transport handler
 
         @param handler: Handler, should derive from the
                         C{sockjs.cyclone.transports.base.BaseTransportMixin}
@@ -95,7 +95,7 @@ class BaseSession(object):
 
     def verify_state(self):
         """ Verify if session was not yet opened. If it is, open it and call
-        connections C{connectionMade} """
+        connection's C{connectionMade} """
         if self.state == SESSION_STATE.CONNECTING:
             self.state = SESSION_STATE.OPEN
 
@@ -121,9 +121,9 @@ class BaseSession(object):
         """
         if self.state != SESSION_STATE.CLOSED:
             try:
-                self.conn.on_close()
+                self.conn.connectionLost()
             except:
-                log.msg("Failed to call on_close().", exc_info=True)
+                log.msg("Failed to call connectionLost().")
             finally:
                 self.state = SESSION_STATE.CLOSED
                 self.close_reason = (code, message)
