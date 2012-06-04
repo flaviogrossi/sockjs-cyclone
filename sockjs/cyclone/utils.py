@@ -1,3 +1,7 @@
+import heapq
+import itertools
+
+
 class SendQueue(object):
     """ Simple send queue. Stores messages and returns a string of all messages.
     """
@@ -19,5 +23,26 @@ class SendQueue(object):
 
     def is_empty(self):
         """ check if the queue is empty. """
+        return not self._queue
+
+
+class PriorityQueue(object):
+    def __init__(self):
+        self._queue = []
+
+        self.counter = itertools.count()   # needed to preserve insertion order
+                                           # in elements with the same priority
+
+    def put(self, el):
+        count = next(self.counter)
+        heapq.heappush(self._queue, (el, count))
+
+    def peek(self):
+        return self._queue[0][0]
+    
+    def pop(self):
+        return heapq.heappop(self._queue)[0]
+
+    def is_empty(self):
         return not self._queue
 

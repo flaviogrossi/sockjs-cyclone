@@ -1,6 +1,49 @@
 from twisted.trial import unittest
 
-from sockjs.cyclone.utils import SendQueue
+from sockjs.cyclone.utils import SendQueue, PriorityQueue
+
+
+class PriorityQueueTest(unittest.TestCase):
+    def setUp(self):
+        self.q = PriorityQueue()
+
+    def test_is_empty(self):
+        self.assertTrue(self.q.is_empty())
+        self.q.put(1)
+        self.assertFalse(self.q.is_empty())
+        self.q.pop()
+        self.assertTrue(self.q.is_empty())
+
+    def test_put_pop(self):
+        self.q.put(1)
+        self.assertEquals(self.q.pop(), 1)
+
+    def test_pop_from_empty_queue_raises_indexerror(self):
+        self.assertRaises(IndexError, self.q.pop)
+
+    def test_peek_doesnt_pop(self):
+        self.q.put(1)
+        self.assertEquals(self.q.peek(), 1)
+        self.assertFalse(self.q.is_empty())
+
+    def test_insertion_order_is_preserved_for_same_priority_elements(self):
+        class El(object):
+            def __init__(self, id, val):
+                self.id = id
+                self.val = val
+
+            def __cmp__(self, other):
+                return cmp(self.val, other.val)
+
+        self.q.put(El('other', 2))
+        self.q.put(El('first', 1))
+        self.q.put(El('second', 1))
+        self.q.put(El('third', 1))
+
+        self.assertEquals(self.q.pop().id, 'first')
+        self.assertEquals(self.q.pop().id, 'second')
+        self.assertEquals(self.q.pop().id, 'third')
+        self.assertEquals(self.q.pop().id, 'other')
 
 
 class SendQueueTest(unittest.TestCase):
