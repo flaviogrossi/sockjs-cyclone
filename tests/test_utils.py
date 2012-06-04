@@ -45,6 +45,13 @@ class PriorityQueueTest(unittest.TestCase):
         self.assertEquals(self.q.pop().id, 'third')
         self.assertEquals(self.q.pop().id, 'other')
 
+    def test_contains(self):
+        self.assertFalse(1 in self.q)
+        self.q.push(1)
+        self.assertTrue(1 in self.q)
+        self.q.pop()
+        self.assertFalse(1 in self.q)
+
 
 class SendQueueTest(unittest.TestCase):
 
