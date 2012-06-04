@@ -8,6 +8,7 @@ from twisted.internet import task
 from twisted.python.constants import NamedConstant, Names
 
 from sockjs.cyclone import proto
+from sockjs.cyclone import utils
 
 
 class ConnectionInfo(object):
@@ -263,7 +264,7 @@ class Session(BaseSession, SessionMixin):
 
         """
         # Initialize session
-        self.send_queue = ''  # TODO: use a list of strings or a StringIO
+        self.send_queue = utils.SendQueue()
         self.send_expects_json = True
 
         # Heartbeat related stuff
@@ -379,19 +380,14 @@ class Session(BaseSession, SessionMixin):
             msg = msg.encode('utf-8')
 
         if self._immediate_flush:
-            if self.handler and not self.send_queue:
+            if self.handler and self.send_queue.is_empty():
                 # Send message right away
                 self.handler.send_pack('a[%s]' % msg)
             else:
-                if self.send_queue:
-                    self.send_queue += ','
-                self.send_queue += msg
-
+                self.send_queue.put(msg)
                 self.flush()
         else:
-            if self.send_queue:
-                self.send_queue += ','
-            self.send_queue += msg
+            self.send_queue.put(msg)
 
             if not self._pending_flush:
                 reactor.callLater(0, self.flush)
@@ -407,11 +403,11 @@ class Session(BaseSession, SessionMixin):
         if self.handler is None:
             return
 
-        if not self.send_queue:
+        if self.send_queue.is_empty():
             return
 
-        self.handler.send_pack('a[%s]' % self.send_queue)
-        self.send_queue = ''
+        self.handler.send_pack('a[%s]' % self.send_queue.get())
+        self.send_queue.clear()
 
     def close(self, code=3000, message='Go away!'):
         """ Close session.
