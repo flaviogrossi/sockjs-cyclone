@@ -27,7 +27,7 @@ class WebSocketTransport(websocket.WebSocketHandler, base.BaseTransportMixin):
         self.session = self.server.create_session(session_id, register=False)
 
         if not self.session.set_handler(self):
-            self.close()
+            self.transport.loseConnection()
             return
 
         self.session.verify_state()

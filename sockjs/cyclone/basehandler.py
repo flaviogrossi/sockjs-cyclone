@@ -104,7 +104,7 @@ class PreflightHandler(BaseHandler):
         self.finish()
 
     def preflight(self):
-        """Handles request authentication"""
+        """ Handles request authentication """
         origin = self.request.headers.get('Origin', '*')
 
         # 'null' may be sent by the browser when the sockjs client is hosted
@@ -123,7 +123,7 @@ class PreflightHandler(BaseHandler):
         self.set_header('Access-Control-Allow-Credentials', 'true')
 
     def verify_origin(self):
-        """Verify if request can be served"""
+        """ Verify if request can be served """
         # TODO: Verify origin
         return True
 
