@@ -18,6 +18,6 @@ setup(name='sockjs-cyclone',
       long_description=readfile('README.rst'),
       url='http://github.com/mrjoes/sockjs-tornado/',
       packages=[ 'sockjs', 'sockjs.cyclone', 'sockjs.cyclone.transports' ],
-      requires=[ 'cyclone', 'twisted > 12' ],
+      requires=[ 'cyclone', 'twisted (>=12.0)', 'simplejson' ],
 )
 
