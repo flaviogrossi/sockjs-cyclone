@@ -12,7 +12,7 @@ from sockjs.cyclone import SockJSRouter
 
 class EchoConnection(SockJSConnection):
     def messageReceived(self, msg):
-        self.send(msg)
+        self.sendMessage(msg)
 
 
 class CloseConnection(SockJSConnection):
@@ -32,7 +32,7 @@ class TickerConnection(SockJSConnection):
         self.timeout.stop()
 
     def _ticker(self):
-        self.send('tick!')
+        self.sendMessage('tick!')
 
 
 class BroadcastConnection(SockJSConnection):
@@ -54,12 +54,12 @@ class AmplifyConnection(SockJSConnection):
         if n < 0 or n > 19:
             n = 1
 
-        self.send('x' * int(math.pow(2, n)))
+        self.sendMessage('x' * int(math.pow(2, n)))
 
 
 class CookieEcho(SockJSConnection):
     def messageReceived(self, msg):
-        self.send(msg)
+        self.sendMessage(msg)
 
 
 class SockJsTestServer(web.Application, object):

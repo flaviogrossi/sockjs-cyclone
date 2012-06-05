@@ -31,7 +31,7 @@ class SockJSConnection(object):
         """ Default on_close handler. """
         pass
 
-    def send(self, message):
+    def sendMessage(self, message):
         """ Send message to the client.
 
         @param message: Message to send.

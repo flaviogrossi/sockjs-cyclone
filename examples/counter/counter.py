@@ -20,7 +20,7 @@ class DateConnection(SockJSConnection):
 
     def send_time(self):
         now = time.localtime()
-        self.send(time.strftime('%H:%M:%S', now))
+        self.sendMessage(time.strftime('%H:%M:%S', now))
 
 
 class MainHandler(web.RequestHandler):
