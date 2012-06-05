@@ -8,15 +8,15 @@ class StreamingTransportBase(pollingbase.PollingTransportBase):
         self.amount_limit = self.server.settings['response_limit']
 
         # HTTP 1.0 client might send keep-alive
-        if hasattr(self.request, 'connection') and not self.request.supports_http_1_1():
+        if (hasattr(self.request, 'connection') 
+                and not self.request.supports_http_1_1()):
             self.request.connection.no_keep_alive = True
 
     def should_finish(self, data_len):
-        """Check if transport should close long running connection after
+        """ Check if transport should close long running connection after
         sending X bytes to the client.
 
-        `data_len`
-            Amount of data that was sent
+        @param data_len: Amount of data that was sent
         """
         self.amount_limit -= data_len
 

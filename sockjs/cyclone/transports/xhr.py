@@ -7,7 +7,7 @@ from sockjs.cyclone.transports import pollingbase
 
 
 class XhrPollingTransport(pollingbase.PollingTransportBase):
-    """xhr-polling transport implementation"""
+    """ xhr-polling transport implementation """
     name = 'xhr'
 
     @asynchronous
