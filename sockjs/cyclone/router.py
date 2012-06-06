@@ -40,7 +40,7 @@ GLOBAL_HANDLERS = [
 ]
 
 TRANSPORTS = {
-    #'websocket': transports.WebSocketTransport,   FIXME
+    'websocket': transports.WebSocketTransport,
     'xhr': transports.XhrPollingTransport,
     'xhr_streaming': transports.XhrStreamingTransport,
     'jsonp': transports.JSONPTransport,
@@ -52,7 +52,7 @@ STATIC_HANDLERS = {
     '/chunking_test': static.ChunkingTestHandler,
     '/info': static.InfoHandler,
     '/iframe[0-9-.a-z_]*.html': static.IFrameHandler,
-    #'/websocket': transports.RawWebSocketTransport,   FIXME
+    '/websocket': transports.RawWebSocketTransport,
     '/?': static.GreetingsHandler
 }
 
@@ -68,6 +68,9 @@ class SockJSRouter(object):
 
         disabled_transports = self.settings['disabled_transports']
         self.websockets_enabled = 'websocket' not in disabled_transports
+
+        # FIXME: remove the following line when websockets are working
+        self.websockets_enabled = False
 
         self.cookie_needed = self.settings['jsessionid']
 
