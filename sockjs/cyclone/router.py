@@ -24,8 +24,8 @@ DEFAULT_SETTINGS = {
     'response_limit': 128 * 1024,
     # Enable or disable JSESSIONID cookie handling
     'jsessionid': True,
-    # Should sockjs-tornado flush messages immediately or queue then and
-    # flush on next ioloop tick
+    # Should sockjs-cyclone flush messages immediately or queue then and
+    # flush on next reactor cycle
     'immediate_flush': True,
     # Enable or disable Nagle for persistent transports
     'disable_nagle': True,
