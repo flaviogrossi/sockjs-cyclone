@@ -92,8 +92,8 @@ class BaseSession(object):
         if self.state != SESSION_STATE.CLOSED:
             try:
                 self.conn.connectionLost()
-            except:
-                log.msg("Failed to call connectionLost().")
+            except Exception as e:
+                log.msg("Failed to call connectionLost(): %r." % e)
             finally:
                 self.state = SESSION_STATE.CLOSED
                 self.close_reason = (code, message)
@@ -428,4 +428,26 @@ class Session(BaseSession, SessionMixin):
 
         for msg in msg_list:
             self.conn.messageReceived(msg)
+
+
+class MultiplexChannelSession(BaseSession):
+    def __init__(self, conn, server, base, name):
+        super(MultiplexChannelSession, self).__init__(conn, server)
+
+        self.base = base
+        self.name = name
+
+    def send_message(self, msg):
+        self.base.sendMessage('msg,' + self.name + ',' + msg)
+
+    def messageReceived(self, msg):
+        self.conn.messageReceived(msg)
+
+    def close(self, code=3000, message='Go away!'):
+        self.base.sendMessage('uns,' + self.name)
+        self._close(code, message)
+
+    # Non-API version of the close, without sending the close message
+    def _close(self, code=3000, message='Go away!'):
+        super(MultiplexChannelSession, self).close(code, message)
 

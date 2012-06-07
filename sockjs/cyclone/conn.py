@@ -1,3 +1,9 @@
+from twisted.python import log
+
+from sockjs.cyclone.transports import base
+from sockjs.cyclone.session import MultiplexChannelSession
+
+
 class ConnectionInfo(object):
     """ Connection information object.
 
@@ -38,7 +44,7 @@ class SockJSConnection(object):
 
     # Public API
     def connectionMade(self, request):
-        """Default connectionMade() handler.
+        """ Default connectionMade() handler.
 
         Override when you need to do some initialization or request validation.
         If you return False, connection will be rejected.
@@ -58,7 +64,7 @@ class SockJSConnection(object):
         raise NotImplementedError()
 
     def connectionLost(self):
-        """ Default on_close handler. """
+        """ Default connectionLost handler. """
         pass
 
     def sendMessage(self, message):
@@ -70,7 +76,7 @@ class SockJSConnection(object):
             self.session.send_message(message)
 
     def broadcast(self, clients, message):
-        """Broadcast message to the one or more clients.
+        """ Broadcast message to the one or more clients.
         Use this method if you want to send same message to lots of clients, as
         it contains several optimizations and will work fast than just having
         loop in your code.
@@ -85,6 +91,63 @@ class SockJSConnection(object):
 
     @property
     def is_closed(self):
-        """Check if connection was closed"""
+        """ Check if connection was closed """
         return self.session.is_closed
+
+
+class MultiplexConnection(SockJSConnection):
+    channels = {}
+
+    def _messageSplit(self, message):
+        parts = message.split(',', 2)
+        if len(parts) == 3:
+            return parts[0], parts[1], parts[2]
+        elif len(parts) == 2:
+            return parts[0], parts[1], None
+        else:
+            raise ValueError
+
+    def connectionMade(self, info):
+        self.endpoints = dict()
+        self.handler = base.MultiplexTransport(self.session.conn_info)
+    
+    def messageReceived(self, message):
+        try:
+            msgtype, topic, payload = self._messageSplit(message)
+        except ValueError:
+            log.msg('invalid message received <%s>' % message)
+            return
+
+        if topic not in self.channels:
+            return
+
+        if topic in self.endpoints:
+            session = self.endpoints[topic]
+
+            if msgtype == 'uns':
+                del self.endpoints[topic]
+                session._close()
+            elif msgtype == 'msg':
+                if payload:
+                    session.messageReceived(payload)
+        else:
+            if msgtype == 'sub':
+                session = MultiplexChannelSession(self.channels[topic],
+                                         self.session.server,
+                                         self,
+                                         topic)
+                session.set_handler(self.handler)
+                session.verify_state()
+
+                self.endpoints[topic] = session
+
+    def connectionLost(self):
+        for name, session in self.endpoints.iteritems():
+            session._close()
+
+    @classmethod
+    def create(cls, **connections):
+        channels = dict(channels=connections)
+        conn = type(cls.__name__, (cls,), channels) 
+        return conn
 
