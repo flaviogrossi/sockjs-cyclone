@@ -1,4 +1,4 @@
-from sockjs.cyclone import session
+from sockjs.cyclone.conn import ConnectionInfo
 
 
 class BaseTransportMixin(object):
@@ -11,9 +11,9 @@ class BaseTransportMixin(object):
 
     def get_conn_info(self):
         """ Return C{ConnectionInfo} object from current transport """
-        return session.ConnectionInfo(self.request.remote_ip,
-                                      self.request.cookies,
-                                      self.request.arguments)
+        return ConnectionInfo(self.request.remote_ip,
+                              self.request.cookies,
+                              self.request.arguments)
 
     def session_closed(self):
         """ Called by the session, when it gets closed """

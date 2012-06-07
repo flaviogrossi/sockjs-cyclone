@@ -1,6 +1,7 @@
 from twisted.trial import unittest
 
-from sockjs.cyclone.session import SessionMixin, ConnectionInfo
+from sockjs.cyclone.session import SessionMixin
+from sockjs.cyclone.conn import ConnectionInfo
 
 
 class ConnectionInfoTest(unittest.TestCase):

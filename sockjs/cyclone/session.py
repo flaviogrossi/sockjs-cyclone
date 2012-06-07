@@ -11,36 +11,6 @@ from sockjs.cyclone import proto
 from sockjs.cyclone import utils
 
 
-class ConnectionInfo(object):
-    """ Connection information object.
-
-    Will be passed to the C{connectionMade} handler of your connection class.
-
-    Has few properties:
-
-    @cvar ip: Caller IP address
-
-    @cvar cookies: Collection of cookies
-
-    @cvar arguments: Collection of the query string arguments
-    """
-    def __init__(self, ip, cookies, arguments):
-        self.ip = ip
-        self.cookies = cookies
-        self.arguments = arguments
-
-    def get_argument(self, name):
-        """ Return single argument by name """
-        val = self.arguments.get(name)
-        if val:
-            return val[0]
-        return None
-
-    def get_cookie(self, name):
-        """ Return single cookie by its name """
-        return self.cookies.get(name)
-
-
 class SESSION_STATE(Names):
     """
     Constants representing Session States
