@@ -239,7 +239,7 @@ class Session(BaseSession, SessionMixin):
 
         # Heartbeat related stuff
         self._heartbeat_timer = None
-        self._heartbeat_interval = server.settings['heartbeat_delay']*1000
+        self._heartbeat_interval = server.settings['heartbeat_delay']
 
         self._immediate_flush = server.settings['immediate_flush']
         self._pending_flush = False

@@ -14,10 +14,14 @@ class XhrStreamingTransport(streamingbase.StreamingTransportBase):
         self.set_header('Content-Type', 'application/javascript; charset=UTF-8')
 
         # Send prelude and flush any pending messages
+        # prelude is needed to workaround an ie8 weirdness:
+        # 'http://blogs.msdn.com/b/ieinternals/archive/2010/04/06/'
+        #     'comet-streaming-in-internet-explorer-with-xmlhttprequest-'
+        #     'and-xdomainrequest.aspx'
         self.write('h' * 2048 + '\n')
         self.flush()
 
-        if not self._attach_session(session_id, False):
+        if not self._attach_session(session_id):
             self.finish()
             return
 

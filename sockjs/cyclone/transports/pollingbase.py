@@ -13,7 +13,7 @@ class PollingTransportBase(basehandler.PreflightHandler, base.BaseTransportMixin
     def _get_session(self, session_id):
         return self.server.get_session(session_id)
 
-    def _attach_session(self, session_id, start_heartbeat=False):
+    def _attach_session(self, session_id, start_heartbeat=True):
         session = self._get_session(session_id)
 
         if session is None:

@@ -16,8 +16,7 @@ class XhrPollingTransport(pollingbase.PollingTransportBase):
         self.preflight()
         self.handle_session_cookie()
 
-        # Get or create session without starting heartbeat
-        if not self._attach_session(session_id, False):
+        if not self._attach_session(session_id):
             return
 
         # Might get already detached because connection was closed in
