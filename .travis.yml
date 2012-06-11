@@ -2,9 +2,7 @@ language: python
 python:
   - 2.6
   - 2.7
-install: # FIXME: user pip install -r requirements.txt
-  pip install -q twisted --use-mirrors
-  pip install -q git+git://github.com/fiorix/cyclone.git --use-mirrors
-  pip install -q simplejson --use-mirrors
+install:
+  pip install -r requirements.txt --use-mirrors
 script:
   trial tests

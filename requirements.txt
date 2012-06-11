@@ -1,0 +1,3 @@
+Twisted
+git+git://github.com/fiorix/cyclone.git
+simplejson
