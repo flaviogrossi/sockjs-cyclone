@@ -15,7 +15,7 @@ class ConnectionInfoTest(unittest.TestCase):
 
     def test_get_cookie_returns_None_on_not_found(self):
         c = ConnectionInfo(None, dict(), None)
-        self.assertIsNone(c.get_cookie('cookie'))
+        self.assertTrue(c.get_cookie('cookie') is None)
 
 
     def test_get_argument(self):
@@ -24,7 +24,7 @@ class ConnectionInfoTest(unittest.TestCase):
 
     def test_get_argument_returns_None_on_not_found(self):
         c = ConnectionInfo(None, None, dict())
-        self.assertIsNone(c.get_argument('arg'))
+        self.assertTrue(c.get_argument('arg') is None)
 
 
 class TimeMock(object):
