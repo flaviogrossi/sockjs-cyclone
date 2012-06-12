@@ -437,14 +437,16 @@ class MultiplexChannelSession(BaseSession):
         self.base = base
         self.name = name
 
-    def send_message(self, msg):
-        self.base.sendMessage('msg,' + self.name + ',' + msg)
+    def send_message(self, msg, stats=True):
+        if not self.base.is_closed:
+            msg = 'msg,%s,%s' % (self.name, msg)
+            self.base.session.send_message(msg, stats)
 
     def messageReceived(self, msg):
         self.conn.messageReceived(msg)
 
     def close(self, code=3000, message='Go away!'):
-        self.base.sendMessage('uns,' + self.name)
+        self.base.sendMessage('uns,%s' % self.name)
         self._close(code, message)
 
     # Non-API version of the close, without sending the close message
