@@ -1,7 +1,9 @@
 SockJS-cyclone
 ==============
 
-SockJS-tornado is a pure Python server implementation for the
+.. image:: https://secure.travis-ci.org/flaviogrossi/sockjs-cyclone.png?branch=master
+
+SockJS-cyclone is a pure Python server implementation for the
 `SockJS protocol <https://github.com/sockjs/sockjs-protocol>`_ running on the
 `Cyclone <http://cyclone.io>`_ web server.
 
