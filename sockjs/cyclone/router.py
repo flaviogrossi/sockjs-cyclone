@@ -69,9 +69,6 @@ class SockJSRouter(object):
         disabled_transports = self.settings['disabled_transports']
         self.websockets_enabled = 'websocket' not in disabled_transports
 
-        # FIXME: remove the following line when websockets are working
-        self.websockets_enabled = False
-
         self.cookie_needed = self.settings['jsessionid']
 
         self._initialize_sessions()
