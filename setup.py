@@ -16,10 +16,24 @@ setup(name='sockjs-cyclone',
       description='SockJS python server for the Cyclone Web Server',
       license=readfile('LICENSE'),
       long_description=readfile('README.rst'),
-      keywords=['sockjs', 'cyclone', 'web server', 'websocket'],
+      keywords=[ 'sockjs',
+                 'cyclone',
+                 'web server',
+                 'websocket'
+               ],
       url='http://github.com/flaviogrossi/sockjs-cyclone/',
-      packages=[ 'sockjs', 'sockjs.cyclone', 'sockjs.cyclone.transports' ],
-      requires=[ 'cyclone', 'twisted (>=12.0)', 'simplejson' ],
+      packages=[ 'sockjs',
+                 'sockjs.cyclone',
+                 'sockjs.cyclone.transports'
+               ],
+      requires=[ 'twisted (>=12.0)',
+                 'cyclone (>=1.0)',
+                 'simplejson'
+               ],
+      install_requires=[ 'twisted>=12.0',
+                         'cyclone>=1.0-rc8',
+                         'simplejson'
+                       ],
       classifiers=(
           'Development Status :: 4 - Beta',
           'Intended Audience :: Developers',
