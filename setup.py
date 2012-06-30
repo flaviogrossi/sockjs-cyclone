@@ -19,5 +19,14 @@ setup(name='sockjs-cyclone',
       url='http://github.com/mrjoes/sockjs-tornado/',
       packages=[ 'sockjs', 'sockjs.cyclone', 'sockjs.cyclone.transports' ],
       requires=[ 'cyclone', 'twisted (>=12.0)', 'simplejson' ],
+      classifiers=(
+          'Development Status :: 4 - Beta',
+          'Intended Audience :: Developers',
+          'License :: OSI Approved :: MIT License',
+          'Programming Language :: Python',
+          'Framework :: Twisted',
+          'Topic :: Internet :: WWW/HTTP',
+          'Topic :: Internet :: WWW/HTTP :: HTTP Servers',
+          'Topic :: Software Development :: Libraries :: Python Modules',
+      )
 )
-
