@@ -1,4 +1,5 @@
 _trial_temp
 *.swp
 *.pyc
-
+dist/
+MANIFEST
