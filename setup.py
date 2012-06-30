@@ -16,7 +16,7 @@ setup(name='sockjs-cyclone',
       description='SockJS python server for the Cyclone Web Server',
       license=readfile('LICENSE'),
       long_description=readfile('README.rst'),
-      url='http://github.com/mrjoes/sockjs-tornado/',
+      url='http://github.com/flaviogrossi/sockjs-cyclone/',
       packages=[ 'sockjs', 'sockjs.cyclone', 'sockjs.cyclone.transports' ],
       requires=[ 'cyclone', 'twisted (>=12.0)', 'simplejson' ],
       classifiers=(
