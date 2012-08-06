@@ -1,0 +1,15 @@
+Source: python-sockjs-cyclone
+Section: python
+Priority: extra
+Maintainer: Flavio Grossi <flaviogrossi@gmail.com>
+Build-Depends: debhelper (>= 8.0.0), python-setuptools
+Standards-Version: 3.9.3
+Homepage: https://github.com/flaviogrossi/sockjs-cyclone
+Vcs-Git: git://github.com/flaviogrossi/sockjs-cyclone.git
+
+Package: python-sockjs-cyclone
+Architecture: any
+Depends: ${python:Depends}, ${misc:Depends}, python-twisted-core, python-cyclone
+Description: Cyclone sockjs server.
+ SockJS-cyclone is a pure Python server implementation for the SockJS protocol
+ (version 0.3) running on the Cyclone web server.

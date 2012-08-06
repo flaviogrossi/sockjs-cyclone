@@ -1,0 +1,5 @@
+python-sockjs-cyclone (0.0.1) unstable; urgency=low
+
+  * Initial debian local package.
+
+ -- python-sockjs-cyclone <flaviogrossi@gmail.com>  Mon, 06 Aug 2012 14:56:41 +0200
