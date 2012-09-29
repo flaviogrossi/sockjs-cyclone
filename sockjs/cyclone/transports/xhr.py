@@ -15,6 +15,7 @@ class XhrPollingTransport(pollingbase.PollingTransportBase):
         # Start response
         self.preflight()
         self.handle_session_cookie()
+        self.disable_cache()
 
         if not self._attach_session(session_id):
             return
@@ -46,6 +47,7 @@ class XhrSendHandler(pollingbase.PollingTransportBase):
     def post(self, session_id):
         self.preflight()
         self.handle_session_cookie()
+        self.disable_cache()
 
         session = self._get_session(session_id)
 

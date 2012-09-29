@@ -12,6 +12,7 @@ class XhrStreamingTransport(streamingbase.StreamingTransportBase):
         self.preflight()
         self.handle_session_cookie()
         self.set_header('Content-Type', 'application/javascript; charset=UTF-8')
+        self.disable_cache()
 
         # Send prelude and flush any pending messages
         # prelude is needed to workaround an ie8 weirdness:
