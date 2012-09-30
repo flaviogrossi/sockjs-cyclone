@@ -17,10 +17,11 @@ class ConnectionInfo(object):
 
     @cvar arguments: Collection of the query string arguments
     """
-    def __init__(self, ip, cookies, arguments):
+    def __init__(self, ip, cookies, arguments, path):
         self.ip = ip
         self.cookies = cookies
         self.arguments = arguments
+        self.path = path
 
     def get_argument(self, name):
         """ Return single argument by name """

@@ -6,24 +6,21 @@ from sockjs.cyclone.conn import ConnectionInfo
 
 class ConnectionInfoTest(unittest.TestCase):
 
-    def test_instantiate(self):
-        ConnectionInfo(None, None, None)
-    
     def test_get_cookie(self):
-        c = ConnectionInfo(None, dict(cookie='mycookie'), None)
+        c = ConnectionInfo(None, dict(cookie='mycookie'), None, None)
         self.assertEquals(c.get_cookie('cookie'), 'mycookie')
 
     def test_get_cookie_returns_None_on_not_found(self):
-        c = ConnectionInfo(None, dict(), None)
+        c = ConnectionInfo(None, dict(), None, None)
         self.assertTrue(c.get_cookie('cookie') is None)
 
 
     def test_get_argument(self):
-        c = ConnectionInfo(None, None, dict(arg=('myarg', '')))
+        c = ConnectionInfo(None, None, dict(arg=('myarg', '')), None)
         self.assertEquals(c.get_argument('arg'), 'myarg')
 
     def test_get_argument_returns_None_on_not_found(self):
-        c = ConnectionInfo(None, None, dict())
+        c = ConnectionInfo(None, None, dict(), None)
         self.assertTrue(c.get_argument('arg') is None)
 
 
