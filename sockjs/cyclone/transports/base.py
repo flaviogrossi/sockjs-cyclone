@@ -13,6 +13,7 @@ class BaseTransportMixin(object):
         return ConnectionInfo(self.request.remote_ip,
                               self.request.cookies,
                               self.request.arguments,
+                              self.request.headers,
                               self.request.path)
 
     def session_closed(self):

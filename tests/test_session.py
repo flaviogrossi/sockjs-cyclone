@@ -7,21 +7,31 @@ from sockjs.cyclone.conn import ConnectionInfo
 class ConnectionInfoTest(unittest.TestCase):
 
     def test_get_cookie(self):
-        c = ConnectionInfo(None, dict(cookie='mycookie'), None, None)
+        c = ConnectionInfo(None, dict(cookie='mycookie'), None, {}, None)
         self.assertEquals(c.get_cookie('cookie'), 'mycookie')
 
     def test_get_cookie_returns_None_on_not_found(self):
-        c = ConnectionInfo(None, dict(), None, None)
+        c = ConnectionInfo(None, dict(), None, {}, None)
         self.assertTrue(c.get_cookie('cookie') is None)
 
 
     def test_get_argument(self):
-        c = ConnectionInfo(None, None, dict(arg=('myarg', '')), None)
+        c = ConnectionInfo(None, None, dict(arg=('myarg', '')), {}, None)
         self.assertEquals(c.get_argument('arg'), 'myarg')
 
     def test_get_argument_returns_None_on_not_found(self):
-        c = ConnectionInfo(None, None, dict(), None)
+        c = ConnectionInfo(None, None, dict(), {}, None)
         self.assertTrue(c.get_argument('arg') is None)
+
+    def test_dont_expose_unknown_headers(self):
+        c = ConnectionInfo(None, None, {}, {'StrangeHeader': '42'}, None)
+        self.assertTrue(c.get_header('StrangeHeader') is None)
+
+    def test_expose_whitelisted_headers(self):
+        headers = dict((h, '42') for h in ConnectionInfo._exposed_headers)
+        c = ConnectionInfo(None, None, {}, headers, None)
+        for h in headers.keys():
+            self.assertTrue(c.get_header(h) is not None)
 
 
 class TimeMock(object):

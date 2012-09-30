@@ -16,12 +16,33 @@ class ConnectionInfo(object):
     @cvar cookies: Collection of cookies
 
     @cvar arguments: Collection of the query string arguments
+
+    @cvar headers: a selection of the request's headers
+
+    @cvar path: uri's path of the request
     """
-    def __init__(self, ip, cookies, arguments, path):
+
+    _exposed_headers = set( ('origin', 'referer', 'x-client-ip',
+                             'x-forwarded-for', 'x-cluster-client-ip')
+                          )
+
+    def __init__(self, ip, cookies, arguments, headers, path):
         self.ip = ip
         self.cookies = cookies
         self.arguments = arguments
         self.path = path
+        self._expose_headers(headers)
+
+    def _expose_headers(self, headers):
+        self.headers = {}
+        for header_name, header_value in headers.iteritems():
+            if header_name.lower() in self._exposed_headers:
+                self.headers[header_name] = header_value
+
+    def get_header(self, name):
+        """ Return a single header by name
+        """
+        return self.headers.get(name)
 
     def get_argument(self, name):
         """ Return single argument by name """
