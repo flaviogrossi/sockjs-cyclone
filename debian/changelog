@@ -1,3 +1,9 @@
+python-sockjs-cyclone (0.0.2) unstable; urgency=low
+
+  * implemented sockjs-protocol v0.3.3.
+
+ -- python-sockjs-cyclone <flaviogrossi@gmail.com>  Wed, 07 Nov 2012 15:14:41 +0200
+
 python-sockjs-cyclone (0.0.1) unstable; urgency=low
 
   * Initial debian local package.
