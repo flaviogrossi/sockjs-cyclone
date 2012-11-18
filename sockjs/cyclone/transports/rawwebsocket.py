@@ -10,7 +10,7 @@ class RawSession(session.BaseSession):
     """ Raw session without any sockjs protocol encoding/decoding.
         Simply works as a proxy between C{SockJSConnection} class and
         C{RawWebSocketTransport}. """
-    def sendMessage(self, msg):
+    def send_message(self, msg):
         self.handler.send_pack(msg)
 
     def messageReceived(self, msg):
@@ -26,7 +26,7 @@ class RawWebSocketTransport(websocket.WebSocketHandler, base.BaseTransportMixin)
         self.server = server
         self.session = None
 
-    def open(self):
+    def connectionMade(self):
         # Stats
         self.server.stats.connectionOpened()
 
@@ -70,10 +70,11 @@ class RawWebSocketTransport(websocket.WebSocketHandler, base.BaseTransportMixin)
 
     def send_pack(self, message):
         # Send message
-        self.write_message(message)
+        self.sendMessage(message)
 
     def session_closed(self):
-        self.close()
+        self.transport.loseConnection()
+        self._detach()
 
     # Websocket overrides
     # TODO: unused in cyclone
