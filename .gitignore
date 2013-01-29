@@ -3,3 +3,4 @@ _trial_temp
 *.pyc
 dist/
 MANIFEST
+.tox/

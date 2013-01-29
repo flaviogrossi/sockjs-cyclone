@@ -17,5 +17,5 @@ Thanks to:
 
 - Serge S. Koval for the tornado implementation;
 
-- Voismart s.r.l for sponsoring the project.
+- VoiSmart s.r.l for sponsoring the project.
 
