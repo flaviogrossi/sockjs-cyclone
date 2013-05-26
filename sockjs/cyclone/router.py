@@ -172,9 +172,9 @@ class SockJSRouter(object):
                 if sess.send_expects_json:
                     if json_msg is None:
                         json_msg = proto.json_encode(msg)
-                    sess.send_jsonified(json_msg, False)
+                    sess.send_jsonified(json_msg, stats=False)
                 else:
-                    sess.send_message(msg, False)
+                    sess.send_message(msg, stats=False)
 
                 count += 1
 

@@ -10,7 +10,7 @@ class RawSession(session.BaseSession):
     """ Raw session without any sockjs protocol encoding/decoding.
         Simply works as a proxy between C{SockJSConnection} class and
         C{RawWebSocketTransport}. """
-    def send_message(self, msg):
+    def send_message(self, msg, stats=True):
         self.handler.send_pack(msg)
 
     def messageReceived(self, msg):

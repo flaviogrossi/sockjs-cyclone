@@ -39,7 +39,7 @@ class PollingTransportBase(basehandler.PreflightHandler, base.BaseTransportMixin
     def check_xsrf_cookie(self):
         pass
 
-    def send_message(self, message):
+    def send_message(self, message, stats=True):
         """ Called by the session when some data is available """
         raise NotImplementedError()
 
