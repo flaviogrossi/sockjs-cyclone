@@ -452,4 +452,3 @@ class MultiplexChannelSession(BaseSession):
     # Non-API version of the close, without sending the close message
     def _close(self, code=3000, message='Go away!'):
         super(MultiplexChannelSession, self).close(code, message)
-

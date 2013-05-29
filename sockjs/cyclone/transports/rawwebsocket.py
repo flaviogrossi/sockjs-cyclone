@@ -35,7 +35,10 @@ class RawWebSocketTransport(websocket.WebSocketHandler, base.BaseTransportMixin)
             self.transport.setTcpNoDelay(True)
 
         # Create and attach to session
-        self.session = RawSession(self.server.get_connection_class(), self.server)
+        session_args = ( self.server.get_connection_class(), self.server )
+        self.session = self.server.create_session(
+                                session_id=None, register=False,
+                                session_factory=(RawSession, session_args, {}))
         self.session.set_handler(self)
         self.session.verify_state()
 
