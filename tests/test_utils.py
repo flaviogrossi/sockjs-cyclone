@@ -52,6 +52,13 @@ class PriorityQueueTest(unittest.TestCase):
         self.q.pop()
         self.assertFalse(1 in self.q)
 
+    def test_len(self):
+        self.assertEquals(len(self.q), 0)
+        self.q.push(1)
+        self.assertEquals(len(self.q), 1)
+        self.q.pop()
+        self.assertEquals(len(self.q), 0)
+
 
 class SendQueueTest(unittest.TestCase):
 
@@ -94,4 +101,3 @@ class SendQueueTest(unittest.TestCase):
         for i in value.split('+'):
             q.push(i)
         self.assertEquals(q.get(), value)
-

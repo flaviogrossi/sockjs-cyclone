@@ -41,7 +41,7 @@ class PriorityQueue(object):
         heapq.heappush(self._queue, (el, count))
 
     def peek(self):
-        """ Returns the highest priority elemente from the queue without
+        """ Returns the highest priority element from the queue without
         removing it. """
         return self._queue[0][0]
     
@@ -54,5 +54,7 @@ class PriorityQueue(object):
         return not self._queue
     
     def __contains__(self, el):
-        return el in [ el[0] for el in self._queue ]
+        return el in ( e[0] for e in self._queue )
 
+    def __len__(self):
+        return len(self._queue)
