@@ -154,10 +154,13 @@ class MultiplexConnection(SockJSConnection):
                     session.messageReceived(payload)
         else:
             if msgtype == 'sub':
-                session = MultiplexChannelSession(self.channels[topic],
-                                         self.session.server,
-                                         self,
-                                         topic)
+
+                session_args = (self.channels[topic], self.session.server,
+                                self, topic)
+                session = self.session.server.create_session(
+                                     session_id=None, register=False,
+                                     session_factory=(MultiplexChannelSession,
+                                                      session_args, {}))
                 session.set_handler(self.handler)
                 session.verify_state()
 
