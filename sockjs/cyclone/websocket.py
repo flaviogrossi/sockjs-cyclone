@@ -23,7 +23,7 @@ class WebSocketHandler(cyclone.websocket.WebSocketHandler):
                    )
             self._writeAndClose(resp)
             return False
-        
+
         return True
 
     def _writeAndClose(self, resp):
@@ -56,4 +56,3 @@ class WebSocketHandler(cyclone.websocket.WebSocketHandler):
             return False
 
         return True
-

@@ -55,9 +55,6 @@ class WebSocketTransport(websocket.WebSocketHandler, base.BaseTransportMixin):
         except Exception as e:
             log.msg('WebSocketTransport.messageReceived: %r' % e)
 
-            # Close session on exception
-            #self.session.close()
-
             # Close running connection
             self.transport.loseConnection()
 
