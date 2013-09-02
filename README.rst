@@ -1,14 +1,178 @@
 SockJS-cyclone
 ==============
 
+.. image:: https://badge.fury.io/py/sockjs-cyclone.png
+    :target: https://pypi.python.org/pypi/sockjs-cyclone
+
 .. image:: https://secure.travis-ci.org/flaviogrossi/sockjs-cyclone.png?branch=master
    :target: http://travis-ci.org/#!/flaviogrossi/sockjs-cyclone
 
-SockJS-cyclone is a pure Python server implementation for the
-`SockJS protocol <https://github.com/sockjs/sockjs-protocol>`_ (version 0.3.3) running on the
-`Cyclone <http://cyclone.io>`_ web server.
+.. image:: https://pypip.in/d/sockjs-cyclone/badge.png
+   :target: https://crate.io/packages/sockjs-cyclone/
 
-Please note that this is a work-in-progress implementation.
+SockJS-cyclone is a pure Python server implementation for the
+`SockJS client library <https://github.com/sockjs/sockjs-client>`_
+running on the `Cyclone <http://cyclone.io>`_ web server.
+
+SockJS-cyclone is released under the `MIT license
+<https://github.com/flaviogrossi/sockjs-cyclone/tree/master/LICENSE>`_.
+
+What is SockJS?
+---------------
+
+`SockJS <http://sockjs.org>`_ is a browser JavaScript library that provides a
+WebSocket-like object.  SockJS gives you a coherent, cross-browser, JavaScript
+API which creates a low latency, full duplex, cross-domain communication
+channel between the browser and the web server, which consistently works across
+old browsers, misconfigured or old proxies and firewalls, etc. by automatically
+using other transports as a fallback mechanism.
+
+SockJS main features:
+
+- simple APIs, as close to the WebSocket API as possible;
+- scaling and load balancing techniques;
+- very fast connection establishment;
+- pure JavaScript library on the client-side, no flash needed;
+- very extensive code testing available for both the server and client sides.
+
+SockJS-cyclone fully supports the SockJS protocol version 0.3.3.
+
+What is Cyclone?
+----------------
+
+`Cyclone <http://cyclone.io>`_ is a very fast and scalable web server framework
+that implements the Tornado API as a Twisted protocol.
+
+How does it look like?
+----------------------
+
+Here is a small example for an echo server:
+
+.. code-block:: python
+
+    from twisted.internet import reactor
+    import cyclone
+    import sockjs.cyclone
+
+    class EchoConnection(sockjs.cyclone.SockJSConnection):
+        def messageReceived(self, message):
+            self.sendMessage(message)
+
+    if __name__ == "__main__":
+        EchoRouter = sockjs.cyclone.SockJSRouter(EchoConnection, '/echo')
+        app = cyclone.web.Application(EchoRouter.urls)
+        reactor.listenTCP(8888, app)
+        reactor.run()
+
+and an excerpt for the client:
+
+.. code-block:: javascript
+
+    var sock = new SockJS('http://mydomain.com/echo');
+    sock.onopen = function() {
+        console.log('open');
+    };
+    sock.onmessage = function(e) {
+        console.log('message', e.data);
+    };
+    sock.onclose = function() {
+        console.log('close');
+    };
+    sock.send('hello!');
+
+Complete examples `here <https://github.com/flaviogrossi/sockjs-cyclone/tree/master/examples>`_.
+
+Multiplexing
+------------
+
+SockJS-Cyclone supports multiplexing (multiple distinct channels over a single
+shared connection):
+
+.. code-block:: python
+
+    from twisted.internet import reactor
+    import cyclone
+    from sockjs.cyclone.conn import SockJSConnection, MultiplexConnection
+    from sockjs.cyclone.router import SockJSRouter
+
+    class AnnConnection(SockJSConnection):
+        def messageReceived(self, message):
+            self.sendMessage('Ann received ' + message)
+
+    class BobConnection(SockJSConnection):
+        def messageReceived(self, message):
+            self.sendMessage('Bob received ' + message)
+
+    class CarlConnection(SockJSConnection):
+        def messageReceived(self, message):
+            self.sendMessage('Carl received ' + message)
+
+    if __name__ == "__main__":
+        multiplexConnection = MultiplexConnection.create(ann=AnnConnection,
+                                                         bob=BobConnection,
+                                                         carl=CarlConnection)
+
+        echoRouter = SockJSRouter(multiplexConnection, '/echo')
+
+        app = cyclone.web.Application(echoRouter.urls)
+        reactor.listenTCP(8888, app)
+        reactor.run()
+
+See the `websocket-multiplex <https://github.com/sockjs/websocket-multiplex>`_
+library for the client support, and the complete example `here
+<https://github.com/flaviogrossi/sockjs-cyclone/tree/master/examples/multiplex>`_.
+
+
+Installation
+============
+
+Install from pypi with:
+
+::
+
+    pip install sockjs-cyclone
+
+or from the latest sources with:
+
+::
+
+    git clone https://github.com/flaviogrossi/sockjs-cyclone.git
+    cd sockjs-cyclone
+    python setup.py install
+
+
+SockJS-cyclone API
+==================
+
+The main interaction with SockJS-cyclone happens via the two classes
+``SockJSRouter`` and ``SockJSConnection``.
+
+SockJSConnection
+----------------
+
+The ``SockJSConnection`` class represent a connection with a client and contains
+the logic of your application. Its main methods are:
+
+- ``connectionMade(request)``: called when the connection with the client is
+  established;
+- ``messageReceived(message)``: called when a new message is received from the
+  client;
+- ``sendMessage(message)``: call when you want to send a new message to the
+  client;
+- ``close()``: close the connection;
+- ``connectionLost()``: called when the connection with the client is lost or
+  explicitly closed.
+
+SockJSRouter
+------------
+
+The ``SockJSRouter`` class routes the requests to the various connections according
+to the url prefix. Its main methods are:
+
+- ``__init__(connection, prefix, user_settings)``: bounds the given connection
+  to the given url prefix;
+- ``urls``: read only property to be used to initialize the cyclone application
+  with all the needed sockjs urls.
 
 
 Credits
@@ -16,6 +180,4 @@ Credits
 Thanks to:
 
 - Serge S. Koval for the tornado implementation;
-
 - VoiSmart s.r.l for sponsoring the project.
-

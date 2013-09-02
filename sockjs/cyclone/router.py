@@ -191,4 +191,3 @@ class SockJSRouter(object):
                 count += 1
 
         self.stats.packSent(count)
-
