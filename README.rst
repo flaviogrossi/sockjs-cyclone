@@ -150,8 +150,8 @@ The main interaction with SockJS-cyclone happens via the two classes
 SockJSConnection
 ----------------
 
-The ``SockJSConnection`` class represent a connection with a client and contains
-the logic of your application. Its main methods are:
+The ``SockJSConnection`` class represent a connection with a client and
+contains the logic of your application. Its main methods are:
 
 - ``connectionMade(request)``: called when the connection with the client is
   established;
@@ -166,8 +166,8 @@ the logic of your application. Its main methods are:
 SockJSRouter
 ------------
 
-The ``SockJSRouter`` class routes the requests to the various connections according
-to the url prefix. Its main methods are:
+The ``SockJSRouter`` class routes the requests to the various connections
+according to the url prefix. Its main methods are:
 
 - ``__init__(connection, prefix, user_settings)``: bounds the given connection
   to the given url prefix;
@@ -175,8 +175,44 @@ to the url prefix. Its main methods are:
   with all the needed sockjs urls.
 
 
+Deployment
+==========
+
+SockJS servers are usually deployed in production behind reverse proxies and/or
+load balancers. The most used options are currently `Nginx <http://nginx.org>`_
+and `HAProxy <http://haproxy.1wt.eu>`_.
+
+Nginx
+-----
+
+Two major options are needed to fully support proxying requests to a
+SockJS-Cyclone server: setting the HTTP protocol version to 1.1 and `passing
+upgrade headers to the server <http://nginx.org/en/docs/http/websocket.html>`_.
+The relevant portion of the required configuration is:
+
+::
+
+    server {
+        listen       80;
+        server_name  localhost;
+
+        location / {
+            proxy_pass          http://<sockjs_server>:<port>;
+            proxy_http_version  1.1;
+            proxy_set_header    Upgrade $http_upgrade;
+            proxy_set_header    Connection "upgrade";
+            proxy_set_header    Host $http_host;
+            proxy_set_header    X-Real-IP $remote_addr;
+        }
+
+    }
+
+A working ``nginx.conf`` example can be found `here <https://github.com/flaviogrossi/sockjs-cyclone/tree/master/examples/deployment>`_.
+
+
 Credits
 =======
+
 Thanks to:
 
 - Serge S. Koval for the tornado implementation;
