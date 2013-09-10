@@ -207,6 +207,8 @@ The relevant portion of the required configuration is:
 
     }
 
+For websocket support, nginx version 1.3.13 or above is needed.
+
 A working ``nginx.conf`` example can be found `here <https://github.com/flaviogrossi/sockjs-cyclone/tree/master/examples/deployment>`_.
 
 
