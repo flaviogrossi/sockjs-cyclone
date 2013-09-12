@@ -211,6 +211,12 @@ For websocket support, nginx version 1.3.13 or above is needed.
 
 A working ``nginx.conf`` example can be found `here <https://github.com/flaviogrossi/sockjs-cyclone/tree/master/examples/deployment>`_.
 
+HAProxy
+-------
+
+A complete example for HAProxy deployment and load balancing can be found on
+``SockJS-Node`` `README <https://github.com/sockjs/sockjs-node#deployment-and-load-balancing>`_
+
 
 Credits
 =======
