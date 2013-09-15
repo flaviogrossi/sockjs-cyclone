@@ -121,4 +121,3 @@ class StatsCollector(object):
 
     def packReceived(self, num):
         self.pack_recv_ps.add(num)
-

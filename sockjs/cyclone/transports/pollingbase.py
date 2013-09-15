@@ -54,4 +54,3 @@ class PollingTransportBase(basehandler.PreflightHandler, base.BaseTransportMixin
             self.session.close(1002, 'Connection interrupted')
 
         super(PollingTransportBase, self).on_connection_close(reason)
-

@@ -19,4 +19,3 @@ def disconnect(code, reason):
     @param reason: Closing reason
     """
     return 'c[%d,"%s"]' % (code, reason)
-

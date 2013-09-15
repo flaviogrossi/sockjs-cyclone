@@ -29,4 +29,3 @@ class MultiplexTransport(BaseTransportMixin):
 
     def get_conn_info(self):
         return self.conn_info
-

@@ -38,4 +38,3 @@ class EventSourceTransport(streamingbase.StreamingTransportBase):
         if self.should_finish(len(msg)):
             self._detach()
             self.safe_finish()
-

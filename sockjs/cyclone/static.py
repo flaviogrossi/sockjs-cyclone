@@ -121,4 +121,3 @@ class InfoHandler(PreflightHandler):
                        entropy=random.randint(0, sys.maxint))
 
         self.write(json_encode(options))
-

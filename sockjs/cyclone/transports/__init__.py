@@ -5,4 +5,3 @@ from .xhr import XhrPollingTransport, XhrSendHandler
 from .xhrstreaming import XhrStreamingTransport
 from .eventsource import EventSourceTransport
 from .rawwebsocket import RawWebSocketTransport
-

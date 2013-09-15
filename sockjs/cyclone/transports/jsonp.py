@@ -117,4 +117,3 @@ class JSONPSendHandler(pollingbase.PollingTransportBase):
         self.write('ok')
         self.set_header('Content-Type', 'text/plain; charset=UTF-8')
         self.set_status(200)
-

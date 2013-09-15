@@ -28,4 +28,3 @@ class StreamingTransportBase(pollingbase.PollingTransportBase):
         self._detach()
 
         self.safe_finish()
-

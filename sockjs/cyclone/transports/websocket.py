@@ -78,12 +78,6 @@ class WebSocketTransport(websocket.WebSocketHandler, base.BaseTransportMixin):
         self.transport.loseConnection()
         self._detach()
 
-    # Websocket overrides
-    # TODO: no use in cyclone
-    def allow_draft76(self):
-        return True
-
     # TODO: no use in cyclone
     def auto_decode(self):
         return False
-

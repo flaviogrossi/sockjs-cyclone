@@ -126,4 +126,3 @@ class PreflightHandler(BaseHandler):
         """ Verify if request can be served """
         # TODO: Verify origin
         return True
-

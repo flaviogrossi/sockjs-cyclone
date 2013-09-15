@@ -81,4 +81,3 @@ class XhrSendHandler(pollingbase.PollingTransportBase):
 
         self.set_status(204)
         self.set_header('Content-Type', 'text/plain; charset=UTF-8')
-

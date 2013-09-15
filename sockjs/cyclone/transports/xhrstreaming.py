@@ -41,4 +41,3 @@ class XhrStreamingTransport(streamingbase.StreamingTransportBase):
         if self.should_finish(len(message) + 1):
             self._detach()
             self.safe_finish()
-

@@ -84,4 +84,3 @@ class SessionContainer(object):
                 self._queue.push(top)
             else:
                 del self._items[top.session_id]
-

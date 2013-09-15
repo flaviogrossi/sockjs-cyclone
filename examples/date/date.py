@@ -46,4 +46,3 @@ if __name__ == '__main__':
 
     log.startLogging(sys.stdout)
     main()
-

@@ -5,7 +5,6 @@ from sockjs.cyclone.transports import base
 from sockjs.cyclone import websocket
 
 
-
 class RawSession(session.BaseSession):
     """ Raw session without any sockjs protocol encoding/decoding.
         Simply works as a proxy between C{SockJSConnection} class and
@@ -78,9 +77,3 @@ class RawWebSocketTransport(websocket.WebSocketHandler, base.BaseTransportMixin)
     def session_closed(self):
         self.transport.loseConnection()
         self._detach()
-
-    # Websocket overrides
-    # TODO: unused in cyclone
-    def allow_draft76(self):
-        return True
-

@@ -175,4 +175,3 @@ class MultiplexConnection(SockJSConnection):
         channels = dict(channels=connections)
         conn = type(cls.__name__, (cls,), channels) 
         return conn
-

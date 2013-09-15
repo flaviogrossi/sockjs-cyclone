@@ -3,6 +3,7 @@ from cyclone.web import asynchronous
 from sockjs.cyclone import proto
 from sockjs.cyclone.transports import streamingbase
 
+
 # HTMLFILE template
 HTMLFILE_HEAD = r'''
 <!doctype html>
@@ -71,4 +72,3 @@ class HtmlFileTransport(streamingbase.StreamingTransportBase):
         if self.should_finish(len(msg)):
             self._detach()
             self.safe_finish()
-
