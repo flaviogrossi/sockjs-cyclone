@@ -215,7 +215,7 @@ HAProxy
 -------
 
 A complete example for HAProxy deployment and load balancing can be found on
-``SockJS-Node`` `README <https://github.com/sockjs/sockjs-node#deployment-and-load-balancing>`_
+``SockJS-Node`` `Readme <https://github.com/sockjs/sockjs-node#deployment-and-load-balancing>`_.
 
 
 Credits
