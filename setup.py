@@ -10,7 +10,7 @@ def readfile(fname):
 
 
 setup(name='sockjs-cyclone',
-      version='0.0.2',
+      version='1.0.0',
       author='Flavio Grossi',
       author_email='flaviogrossi@gmail.com',
       description='SockJS python server for the Cyclone Web Server',
