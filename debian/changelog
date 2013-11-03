@@ -1,6 +1,12 @@
+python-sockjs-cyclone (1.0.1) unstable; urgency=low
+
+  * updated readme.
+
+ -- python-sockjs-cyclone <flaviogrossi@gmail.com>  Sun, 03 Nov 2013 12:03:40 +0100
+
 python-sockjs-cyclone (1.0.0) unstable; urgency=low
 
-  * first stable version 
+  * first stable version.
 
  -- python-sockjs-cyclone <flaviogrossi@gmail.com>  Fri, 01 Nov 2013 10:23:00 +0100
 
