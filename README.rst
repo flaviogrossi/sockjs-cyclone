@@ -1,3 +1,6 @@
+.. contents:: Table of contents
+
+
 SockJS-cyclone
 ==============
 
