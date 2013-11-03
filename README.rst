@@ -187,6 +187,8 @@ SockJS servers are usually deployed in production behind reverse proxies and/or
 load balancers. The most used options are currently `Nginx <http://nginx.org>`_
 and `HAProxy <http://haproxy.1wt.eu>`_.
 
+For Heroku deployment, see the quickstart instructions `here <https://github.com/flaviogrossi/sockjs-cyclone_heroku_quickstart>`_.
+
 Nginx
 -----
 
