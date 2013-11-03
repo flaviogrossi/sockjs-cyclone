@@ -49,6 +49,8 @@ that implements the Tornado API as a Twisted protocol.
 How does it look like?
 ----------------------
 
+A live demo deployed on Heroku can be found `here <http://sockjs-cyclone-demo.herokuapp.com>`_.
+
 Here is a small example for an echo server:
 
 .. code-block:: python
