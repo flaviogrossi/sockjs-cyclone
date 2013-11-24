@@ -3,7 +3,7 @@
 %endif
 
 Name:           python-sockjs-cyclone
-Version:        0.1
+Version:        1.0.2
 Release:        1%{?dist}
 Summary:        SockJS server support for the Cyclone web server
 Group:          Development/Libraries
