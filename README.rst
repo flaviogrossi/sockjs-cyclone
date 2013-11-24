@@ -85,7 +85,7 @@ and an excerpt for the client:
     };
     sock.send('hello!');
 
-Complete examples `here <https://github.com/flaviogrossi/sockjs-cyclone/tree/master/examples>`_.
+Complete examples `can be found here <https://github.com/flaviogrossi/sockjs-cyclone/tree/master/examples>`_.
 
 Multiplexing
 ------------
@@ -124,7 +124,7 @@ shared connection):
         reactor.run()
 
 See the `websocket-multiplex <https://github.com/sockjs/websocket-multiplex>`_
-library for the client support, and the complete example `here
+library for the client support, and the `complete example 
 <https://github.com/flaviogrossi/sockjs-cyclone/tree/master/examples/multiplex>`_.
 
 
@@ -187,7 +187,7 @@ SockJS servers are usually deployed in production behind reverse proxies and/or
 load balancers. The most used options are currently `Nginx <http://nginx.org>`_
 and `HAProxy <http://haproxy.1wt.eu>`_.
 
-For Heroku deployment, see the quickstart instructions `here <https://github.com/flaviogrossi/sockjs-cyclone_heroku_quickstart>`_.
+For Heroku deployment, see the `quickstart instructions here <https://github.com/flaviogrossi/sockjs-cyclone_heroku_quickstart>`_.
 
 Nginx
 -----
@@ -216,7 +216,7 @@ The relevant portion of the required configuration is:
 
 For websocket support, nginx version 1.3.13 or above is needed.
 
-A working ``nginx.conf`` example can be found `here <https://github.com/flaviogrossi/sockjs-cyclone/tree/master/examples/deployment>`_.
+A working ``nginx.conf`` example can be found `in the examples directory <https://github.com/flaviogrossi/sockjs-cyclone/tree/master/examples/deployment>`_.
 
 HAProxy
 -------
