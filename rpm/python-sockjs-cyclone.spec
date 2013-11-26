@@ -21,7 +21,7 @@ Requires:       python-simplejson
 Requires:       python-twisted-cyclone
 
 %description
-SockJS-tornado is a pure Python server implementation for the SockJS protocol
+SockJS-Cyclone is a pure Python server implementation for the SockJS protocol
 running on the Cyclone web server.
 
 %prep
@@ -44,6 +44,14 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/sockjs*egg-info
 
 %changelog
+* Sun Nov 24 2013 Flavio Grossi <flaviogrossi@gmail.com> 
+- Version 1.0.2
+
+* Sun Nob 3 2013 Flavio Grossi <flaviogrossi@gmail.com> 
+- Version 1.0.1
+
+* Fri Nob 1 2013 Flavio Grossi <flaviogrossi@gmail.com> 
+- First stable release, 1.0.0
+
 * Wed Jun 6 2012 Flavio Grossi <flaviogrossi@gmail.com> 
 - First rpm release
-
