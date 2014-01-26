@@ -27,12 +27,10 @@ setup(name='sockjs-cyclone',
                  'sockjs.cyclone.transports'
                ],
       requires=[ 'twisted (>=12.0)',
-                 'cyclone (>=1.0)',
-                 'simplejson'
+                 'cyclone (>=1.0)'
                ],
       install_requires=[ 'twisted>=12.0',
-                         'cyclone>=1.0-rc8',
-                         'simplejson'
+                         'cyclone>=1.0-rc8'
                        ],
       classifiers=(
           'Development Status :: 5 - Production/Stable',
