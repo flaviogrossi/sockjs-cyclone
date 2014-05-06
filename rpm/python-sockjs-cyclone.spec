@@ -47,10 +47,10 @@ rm -rf $RPM_BUILD_ROOT
 * Sun Nov 24 2013 Flavio Grossi <flaviogrossi@gmail.com> 
 - Version 1.0.2
 
-* Sun Nob 3 2013 Flavio Grossi <flaviogrossi@gmail.com> 
+* Sun Nov 3 2013 Flavio Grossi <flaviogrossi@gmail.com> 
 - Version 1.0.1
 
-* Fri Nob 1 2013 Flavio Grossi <flaviogrossi@gmail.com> 
+* Fri Nov 1 2013 Flavio Grossi <flaviogrossi@gmail.com> 
 - First stable release, 1.0.0
 
 * Wed Jun 6 2012 Flavio Grossi <flaviogrossi@gmail.com> 
