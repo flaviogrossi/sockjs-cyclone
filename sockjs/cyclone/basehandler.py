@@ -32,11 +32,11 @@ class BaseHandler(RequestHandler):
             self.server.stats.connectionClosed()
             self.logged = False
 
-    def finish(self):
+    def finish(self, chunk=None):
         """ Cyclone C{finish} handler """
         self._log_disconnect()
 
-        super(BaseHandler, self).finish()
+        super(BaseHandler, self).finish(chunk)
 
     def on_connection_close(self, reason):
         self._log_disconnect()
