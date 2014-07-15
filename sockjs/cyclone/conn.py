@@ -23,7 +23,8 @@ class ConnectionInfo(object):
     """
 
     _exposed_headers = set( ('origin', 'referer', 'x-client-ip',
-                             'x-forwarded-for', 'x-cluster-client-ip')
+                             'x-forwarded-for', 'x-cluster-client-ip',
+                             'user-agent')
                           )
 
     def __init__(self, ip, cookies, arguments, headers, path):
