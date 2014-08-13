@@ -13,8 +13,8 @@ SockJS-cyclone
 .. image:: https://pypip.in/d/sockjs-cyclone/badge.png
    :target: https://crate.io/packages/sockjs-cyclone/
 
-.. image:: https://d2weczhvl823v0.cloudfront.net/flaviogrossi/sockjs-cyclone/trend.png
-   :target: https://bitdeli.com/free
+.. image:: http://img.shields.io/badge/license-MIT-blue.svg
+   :target: http://opensource.org/licenses/MIT
 
 SockJS-cyclone is a pure Python server implementation for the
 `SockJS client library <https://github.com/sockjs/sockjs-client>`_
